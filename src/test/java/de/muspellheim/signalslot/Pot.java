@@ -37,7 +37,7 @@ package de.muspellheim.signalslot;
  */
 public class Pot {
 
-	private final Signal<Object> pourSignal = new BaseSignal<Object>();
+	private final Signal<Object> pourSignal = new SignalImpl<Object>();
 
 	public Signal<Object> pour() {
 		return pourSignal;

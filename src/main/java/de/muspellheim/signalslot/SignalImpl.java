@@ -32,11 +32,11 @@ package de.muspellheim.signalslot;
 import java.util.*;
 
 /**
- * Basisklasse für ein Signal.
+ * Defaultimplementierung für ein Signal.
  * 
  * @author Falko Schumann <www.muspellheim.de>
  */
-public class BaseSignal<T> implements Signal<T> {
+public class SignalImpl<T> implements Signal<T> {
 
 	private final List<Slot<T>> receivers = new ArrayList<Slot<T>>();
 	private boolean blockSignals;
