@@ -39,7 +39,7 @@ import java.util.*;
 public class SignalImpl<T> implements Signal<T> {
 
 	private final List<Slot<T>> receivers = new ArrayList<Slot<T>>();
-	private boolean blockSignals;
+	private boolean blockSignal;
 
 	@Override
 	public void connect(final Slot<T> slot) {
@@ -57,7 +57,7 @@ public class SignalImpl<T> implements Signal<T> {
 
 	@Override
 	public void emit(final T value) {
-		if (!blockSignals) {
+		if (!blockSignal) {
 			synchronized (receivers) {
 				for (final Slot<T> slot : receivers) {
 					slot.receive(value);
@@ -67,15 +67,15 @@ public class SignalImpl<T> implements Signal<T> {
 	}
 
 	@Override
-	public boolean blockSignals(final boolean block) {
-		final boolean oldValue = blockSignals;
-		blockSignals = block;
+	public boolean blockSignal(final boolean block) {
+		final boolean oldValue = blockSignal;
+		blockSignal = block;
 		return oldValue;
 	}
 
 	@Override
-	public boolean signalsBlocked() {
-		return blockSignals;
+	public boolean signalBlocked() {
+		return blockSignal;
 	}
 
 }

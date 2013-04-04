@@ -42,8 +42,8 @@ public interface Signal<T> {
 
 	void disconnect(Slot<T> slot);
 
-	boolean blockSignals(boolean block);
+	boolean blockSignal(boolean block);
 
-	boolean signalsBlocked();
+	boolean signalBlocked();
 
 }

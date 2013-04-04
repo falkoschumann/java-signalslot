@@ -72,7 +72,7 @@ public class SignalSlotTest {
 		final Tea tea = new Tea();
 
 		pot.pour().connect(cup.infuse());
-		pot.pour().blockSignals(true);
+		pot.pour().blockSignal(true);
 		pot.pour().emit(tea);
 
 		assertNull(cup.getContent());
