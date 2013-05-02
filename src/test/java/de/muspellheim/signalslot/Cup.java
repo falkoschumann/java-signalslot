@@ -27,32 +27,33 @@
 package de.muspellheim.signalslot;
 
 /**
- * Eine Tasse.
- * 
+ * A small container for drink.
+ *
  * @author Falko Schumann <www.muspellheim.de>
  */
 public class Cup {
 
-	private final Slot<Object> infuse = new Slot<Object>() {
+    private final Slot1<Tea> infuse = new Slot1<Tea>() {
 
-		@Override
-		public void receive(final Object value) {
-			setContent(value);
-		}
-	};
+        @Override
+        public void receive(final Tea value) {
+            setContent(value);
+        }
 
-	private Object content;
+    };
 
-	public Slot<Object> infuse() {
-		return infuse;
-	}
+    private Tea content;
 
-	public Object getContent() {
-		return content;
-	}
+    public Slot1<Tea> infuse() {
+        return infuse;
+    }
 
-	public void setContent(final Object content) {
-		this.content = content;
-	}
+    public Tea getContent() {
+        return content;
+    }
+
+    public void setContent(final Tea content) {
+        this.content = content;
+    }
 
 }

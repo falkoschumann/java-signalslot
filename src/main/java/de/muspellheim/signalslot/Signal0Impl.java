@@ -26,13 +26,44 @@
 
 package de.muspellheim.signalslot;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
- * A hot drink.
+ * Default implementation of {@link Signal0}.
  *
  * @author Falko Schumann <www.muspellheim.de>
  */
-public class Tea {
+public class Signal0Impl implements Signal0 {
 
-    // nix
+    private final List<Slot0> receivers = new ArrayList<Slot0>();
+
+    @Override
+    public void connect(final Slot0 slot) {
+        synchronized (receivers) {
+            receivers.add(slot);
+        }
+    }
+
+    @Override
+    public void disconnect(final Slot0 slot) {
+        synchronized (receivers) {
+            receivers.remove(slot);
+        }
+    }
+
+    @Override
+    public void emit() {
+        synchronized (receivers) {
+            for (final Slot0 slot : receivers) {
+                slot.receive();
+            }
+        }
+    }
+
+    @Override
+    public void receive() {
+        emit();
+    }
 
 }

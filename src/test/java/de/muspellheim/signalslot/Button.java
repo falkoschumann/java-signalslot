@@ -26,53 +26,21 @@
 
 package de.muspellheim.signalslot;
 
-import java.util.*;
-
 /**
- * Defaultimplementierung für ein Signal.
- * 
+ * A very simple UI Button.
+ *
  * @author Falko Schumann <www.muspellheim.de>
  */
-public class SignalImpl<T> implements Signal<T> {
+public class Button {
 
-	private final List<Slot<T>> receivers = new ArrayList<Slot<T>>();
-	private boolean blockSignal;
+    private Signal0 clicked = new Signal0Impl();
 
-	@Override
-	public void connect(final Slot<T> slot) {
-		synchronized (receivers) {
-			receivers.add(slot);
-		}
-	}
+    public Signal0 clicked() {
+        return clicked;
+    }
 
-	@Override
-	public void disconnect(final Slot<T> slot) {
-		synchronized (receivers) {
-			receivers.remove(slot);
-		}
-	}
-
-	@Override
-	public void emit(final T value) {
-		if (!blockSignal) {
-			synchronized (receivers) {
-				for (final Slot<T> slot : receivers) {
-					slot.receive(value);
-				}
-			}
-		}
-	}
-
-	@Override
-	public boolean blockSignal(final boolean block) {
-		final boolean oldValue = blockSignal;
-		blockSignal = block;
-		return oldValue;
-	}
-
-	@Override
-	public boolean signalBlocked() {
-		return blockSignal;
-	}
+    public void push() {
+        clicked.emit();
+    }
 
 }

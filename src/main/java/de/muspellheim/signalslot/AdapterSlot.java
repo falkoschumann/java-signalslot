@@ -27,12 +27,21 @@
 package de.muspellheim.signalslot;
 
 /**
- * A hot drink.
+ * Adapt to {@link Slot0} to {@link Slot1}.
  *
  * @author Falko Schumann <www.muspellheim.de>
  */
-public class Tea {
+public class AdapterSlot<T> implements Slot1<T> {
 
-    // nix
+    private final Slot0 slot;
+
+    public AdapterSlot(Slot0 slot) {
+        this.slot = slot;
+    }
+
+    @Override
+    public void receive(T value) {
+        slot.receive();
+    }
 
 }

@@ -27,12 +27,29 @@
 package de.muspellheim.signalslot;
 
 /**
- * Repräsentiert ein Signal.
- * 
+ * An action.
+ *
  * @author Falko Schumann <www.muspellheim.de>
  */
-public interface Slot<T> {
+public class Action {
 
-	void receive(T value);
+    private Slot0 doSomeThing = new Slot0() {
+
+        @Override
+        public void receive() {
+            triggered = true;
+        }
+
+    };
+
+    private boolean triggered;
+
+    public Slot0 doSomeThing() {
+        return doSomeThing;
+    }
+
+    public boolean isTriggered() {
+        return triggered;
+    }
 
 }

@@ -26,53 +26,132 @@
 
 package de.muspellheim.signalslot;
 
+import org.junit.Test;
+
 import static org.junit.Assert.*;
 
-import org.junit.*;
-
 /**
- * Akzeptanztest für die API der Signale und Slots.
- * 
+ * Acceptance test for signals and slots.
+ *
  * @author Falko Schumann <www.muspellheim.de>
  */
 public class SignalSlotTest {
 
-	@Test
-	public void testServeCoffee_Connected_FillCup() {
-		final Pot pot = new Pot();
-		final Cup cup = new Cup();
-		final Coffee coffee = new Coffee();
+    @Test
+    public void testButtonClicked_Connected_ReceiveEvent() throws Exception {
+        final Button button = new Button();
+        final Action action = new Action();
 
-		pot.pour().connect(cup.infuse());
-		pot.pour().emit(coffee);
+        button.clicked().connect(action.doSomeThing());
+        button.push();
 
-		assertSame(coffee, cup.getContent());
-	}
+        assertTrue(action.isTriggered());
+    }
 
-	@Test
-	public void testServeTea_Disconnected_EmptyCup() {
-		final Pot pot = new Pot();
-		final Cup cup = new Cup();
-		final Tea tea = new Tea();
+    @Test
+    public void testButtonClicked_Disconnected_DoNotReceiveEvent() throws Exception {
+        final Button button = new Button();
+        final Action action = new Action();
 
-		pot.pour().connect(cup.infuse());
-		pot.pour().disconnect(cup.infuse());
-		pot.pour().emit(tea);
+        button.clicked().connect(action.doSomeThing());
+        button.clicked().disconnect(action.doSomeThing());
+        button.push();
 
-		assertNull(cup.getContent());
-	}
+        assertFalse(action.isTriggered());
+    }
 
-	@Test
-	public void testServeTea_Blocked_EmptyCup() {
-		final Pot pot = new Pot();
-		final Cup cup = new Cup();
-		final Tea tea = new Tea();
 
-		pot.pour().connect(cup.infuse());
-		pot.pour().blockSignal(true);
-		pot.pour().emit(tea);
+    @Test
+    public void testServeTea_Connected_FillOneCup() {
+        final Pot pot = new Pot();
+        final Cup cup = new Cup();
+        final Tea tea = new Tea();
 
-		assertNull(cup.getContent());
-	}
+        pot.pour().connect(cup.infuse());
+        pot.pour().emit(tea);
+
+        assertSame(tea, cup.getContent());
+    }
+
+    @Test
+    public void testServeTea_Connected_FillTwoCups() {
+        final Pot pot = new Pot();
+        final Cup cup1 = new Cup();
+        final Cup cup2 = new Cup();
+        final Tea tea = new Tea();
+
+        pot.pour().connect(cup1.infuse());
+        pot.pour().connect(cup2.infuse());
+        pot.pour().emit(tea);
+
+        assertSame(tea, cup1.getContent());
+        assertSame(tea, cup2.getContent());
+    }
+
+    @Test
+    public void testServeTea_Disconnected_EmptyCup() {
+        final Pot pot = new Pot();
+        final Cup cup = new Cup();
+        final Tea tea = new Tea();
+
+        pot.pour().connect(cup.infuse());
+        pot.pour().disconnect(cup.infuse());
+        pot.pour().emit(tea);
+
+        assertNull(cup.getContent());
+    }
+
+    @Test
+    public void testCrossConnect_Connected_ReceiveEvent() throws Exception {
+        final Pot pot = new Pot();
+        final Tea tea = new Tea();
+        final Action action = new Action();
+
+        pot.pour().connect(new AdapterSlot<Tea>(action.doSomeThing()));
+        pot.pour().emit(tea);
+
+        assertTrue(action.isTriggered());
+    }
+
+    @Test
+    public void testCrossConnect_Disconnected_DoNotReceiveEvent() throws Exception {
+        final Pot pot = new Pot();
+        final Tea tea = new Tea();
+        final Action action = new Action();
+
+        Slot1<Tea> teaTime = new AdapterSlot<Tea>(action.doSomeThing());
+        pot.pour().connect(teaTime);
+        pot.pour().disconnect(teaTime);
+        pot.pour().emit(tea);
+
+        assertFalse(action.isTriggered());
+    }
+
+    @Test
+    public void testChainSignal0_Connected_ReceiveEvent() throws Exception {
+        final Button button1 = new Button();
+        final Button button2 = new Button();
+        final Action action = new Action();
+
+        button1.clicked().connect(button2.clicked());
+        button2.clicked().connect(action.doSomeThing());
+        button1.push();
+
+        assertTrue(action.isTriggered());
+    }
+
+    @Test
+    public void testChainSignal1_Connected_ReceiveData() throws Exception {
+        final Pot pot1 = new Pot();
+        final Pot pot2 = new Pot();
+        final Cup cup = new Cup();
+        final Tea tea = new Tea();
+
+        pot1.pour().connect(pot2.pour());
+        pot2.pour().connect(cup.infuse());
+        pot1.pour().emit(tea);
+
+        assertSame(tea, cup.getContent());
+    }
 
 }

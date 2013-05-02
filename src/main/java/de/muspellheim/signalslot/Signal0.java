@@ -27,12 +27,18 @@
 package de.muspellheim.signalslot;
 
 /**
- * Ein flüssiges schwarzes Heißgetränk.
- * 
+ * Interface of a signal without arguments.
+ * <p/>
+ * <p>This signal act as source of an event and can connect to any compatible slot.</p>
+ *
  * @author Falko Schumann <www.muspellheim.de>
  */
-public class Coffee {
+public interface Signal0 extends Slot0 {
 
-	// nix
+    void emit();
+
+    void connect(Slot0 slot);
+
+    void disconnect(Slot0 slot);
 
 }

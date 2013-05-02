@@ -27,12 +27,14 @@
 package de.muspellheim.signalslot;
 
 /**
- * A hot drink.
+ * Interface of a slot without arguments.
+ * <p/>
+ * <p>This slot act as receiver of an event.</p>
  *
  * @author Falko Schumann <www.muspellheim.de>
  */
-public class Tea {
+public interface Slot0 {
 
-    // nix
+    void receive();
 
 }

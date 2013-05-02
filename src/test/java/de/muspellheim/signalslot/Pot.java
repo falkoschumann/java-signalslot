@@ -28,16 +28,16 @@ package de.muspellheim.signalslot;
 
 
 /**
- * Eine Kanne.
- * 
+ * A large container for drink.
+ *
  * @author Falko Schumann <www.muspellheim.de>
  */
 public class Pot {
 
-	private final Signal<Object> pourSignal = new SignalImpl<Object>();
+    private final Signal1<Tea> pourSignal = new Signal1Impl<Tea>();
 
-	public Signal<Object> pour() {
-		return pourSignal;
-	}
+    public Signal1<Tea> pour() {
+        return pourSignal;
+    }
 
 }

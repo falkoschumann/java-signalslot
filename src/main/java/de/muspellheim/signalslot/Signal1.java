@@ -27,20 +27,18 @@
 package de.muspellheim.signalslot;
 
 /**
- * Repräsentiert ein Signal.
- * 
+ * Interface of a signal with one argument.
+ * <p/>
+ * <p>This signal act as source of data and can connect to any compatible slot.</p>
+ *
  * @author Falko Schumann <www.muspellheim.de>
  */
-public interface Signal<T> {
+public interface Signal1<T> extends Slot1<T> {
 
-	void emit(T value);
+    void emit(T value);
 
-	void connect(Slot<T> slot);
+    void connect(Slot1<T> slot);
 
-	void disconnect(Slot<T> slot);
-
-	boolean blockSignal(boolean block);
-
-	boolean signalBlocked();
+    void disconnect(Slot1<T> slot);
 
 }
