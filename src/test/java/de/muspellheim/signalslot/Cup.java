@@ -33,27 +33,10 @@ package de.muspellheim.signalslot;
  */
 public class Cup {
 
-    private final Slot1<Tea> infuse = new Slot1<Tea>() {
+    private final Slot1<Tea> content = new Slot1<Tea>();
 
-        @Override
-        public void receive(final Tea value) {
-            setContent(value);
-        }
-
-    };
-
-    private Tea content;
-
-    public Slot1<Tea> infuse() {
-        return infuse;
-    }
-
-    public Tea getContent() {
+    public Slot1<Tea> content() {
         return content;
-    }
-
-    public void setContent(final Tea content) {
-        this.content = content;
     }
 
 }

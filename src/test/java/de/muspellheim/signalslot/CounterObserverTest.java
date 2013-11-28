@@ -26,44 +26,55 @@
 
 package de.muspellheim.signalslot;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.junit.Test;
+
+import java.util.Observable;
+import java.util.Observer;
+
+import static org.junit.Assert.assertEquals;
 
 /**
- * Default implementation of {@link Signal1}.
+ * Ported Qt simple example of signals and slots to Java observer pattern.
  *
- * @author Falko Schumann <www.muspellheim.de>
+ * @author Falko Schumann &lt;falko.schumann@muspellheim.de&gt;
  */
-public class Signal1Impl<T> implements Signal1<T>, Slot1<T> {
+public class CounterObserverTest {
 
-    private final List<Slot1<T>> receivers = new ArrayList<Slot1<T>>();
+    @Test
+    public void testCounter() {
+        Counter a = new Counter();
+        Counter b = new Counter();
+        a.addObserver(b);
 
-    @Override
-    public void connect(final Slot1<T> slot) {
-        synchronized (receivers) {
-            receivers.add(slot);
-        }
+        a.setValue(12);
+        assertEquals(12, a.getValue());
+        assertEquals(12, b.getValue());
+
+        b.setValue(48);
+        assertEquals(12, a.getValue());
+        assertEquals(48, b.getValue());
     }
 
-    @Override
-    public void disconnect(final Slot1<T> slot) {
-        synchronized (receivers) {
-            receivers.remove(slot);
-        }
-    }
+    public static class Counter extends Observable implements Observer {
 
-    @Override
-    public void emit(final T value) {
-        synchronized (receivers) {
-            for (final Slot1<T> slot : receivers) {
-                slot.receive(value);
+        private int value;
+
+        public int getValue() {
+            return value;
+        }
+
+        public void setValue(int value) {
+            if (this.value != value) {
+                this.value = value;
+                setChanged();
+                notifyObservers(value);
             }
         }
-    }
 
-    @Override
-    public void receive(T value) {
-        emit(value);
+        @Override
+        public void update(Observable o, Object arg) {
+            value = (Integer) arg;
+        }
     }
 
 }

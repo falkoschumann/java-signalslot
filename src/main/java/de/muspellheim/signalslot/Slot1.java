@@ -27,14 +27,30 @@
 package de.muspellheim.signalslot;
 
 /**
- * Interface of a slot with one argument.
+ * A slot with one argument.
  * <p/>
  * <p>This slot act as receiver of data.</p>
  *
  * @author Falko Schumann <www.muspellheim.de>
  */
-public interface Slot1<T> {
+public class Slot1<T> {
 
-    void receive(T value);
+    private T value;
+
+    public Slot1() {
+        this(null);
+    }
+
+    public Slot1(T value) {
+        this.value = value;
+    }
+
+    public T get() {
+        return value;
+    }
+
+    public void set(T value) {
+        this.value = value;
+    }
 
 }

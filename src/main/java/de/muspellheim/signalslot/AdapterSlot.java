@@ -27,11 +27,11 @@
 package de.muspellheim.signalslot;
 
 /**
- * Adapt to {@link Slot0} to {@link Slot1}.
+ * Adapt from {@link Slot0} to {@link Slot1}.
  *
  * @author Falko Schumann <www.muspellheim.de>
  */
-public class AdapterSlot<T> implements Slot1<T> {
+public class AdapterSlot<T> extends Slot1<T> {
 
     private final Slot0 slot;
 
@@ -40,7 +40,7 @@ public class AdapterSlot<T> implements Slot1<T> {
     }
 
     @Override
-    public void receive(T value) {
+    public void set(T value) {
         slot.receive();
     }
 

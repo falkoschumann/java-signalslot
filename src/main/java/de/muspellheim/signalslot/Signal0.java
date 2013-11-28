@@ -26,19 +26,41 @@
 
 package de.muspellheim.signalslot;
 
+import java.util.Vector;
+
 /**
- * Interface of a signal without arguments.
+ * A signal without arguments.
  * <p/>
  * <p>This signal act as source of an event and can connect to any compatible slot.</p>
  *
  * @author Falko Schumann <www.muspellheim.de>
  */
-public interface Signal0 extends Slot0 {
+public class Signal0 implements Slot0 {
 
-    void emit();
+    private Vector<Slot0> slots = new Vector<Slot0>();
 
-    void connect(Slot0 slot);
+    public void emit() {
+        Slot0[] arrLocal;
+        synchronized (this) {
+            arrLocal = slots.toArray(new Slot0[0]);
+        }
+        for (Slot0 e : arrLocal) {
+            e.receive();
+        }
+    }
 
-    void disconnect(Slot0 slot);
+    public void connect(Slot0 slot) {
+        if (slot == null) throw new NullPointerException("slot");
+        slots.add(slot);
+    }
+
+    public void disconnect(Slot0 slot) {
+        if (slot == null) throw new NullPointerException("slot");
+        slots.remove(slot);
+    }
+
+    public void receive() {
+        emit();
+    }
 
 }

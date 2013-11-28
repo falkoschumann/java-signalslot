@@ -26,44 +26,44 @@
 
 package de.muspellheim.signalslot;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
 
 /**
- * Default implementation of {@link Signal0}.
+ * Ported Qt simple example of signals and slots to Java observer pattern.
  *
- * @author Falko Schumann <www.muspellheim.de>
+ * @author Falko Schumann &lt;falko.schumann@muspellheim.de&gt;
  */
-public class Signal0Impl implements Signal0 {
+public class CounterSignalSlotTest {
 
-    private final List<Slot0> receivers = new ArrayList<Slot0>();
+    @Test
+    public void testCounter() {
+        Counter a = new Counter();
+        Counter b = new Counter();
+        a.getValueChanged().connect(b.value());
 
-    @Override
-    public void connect(final Slot0 slot) {
-        synchronized (receivers) {
-            receivers.add(slot);
-        }
+        a.value().set(12);
+        assertEquals(12, (int) a.value().get());
+        assertEquals(12, (int) b.value().get());
+
+        b.value().set(48);
+        assertEquals(12, (int) a.value().get());
+        assertEquals(48, (int) b.value().get());
     }
 
-    @Override
-    public void disconnect(final Slot0 slot) {
-        synchronized (receivers) {
-            receivers.remove(slot);
-        }
-    }
+    public static class Counter {
 
-    @Override
-    public void emit() {
-        synchronized (receivers) {
-            for (final Slot0 slot : receivers) {
-                slot.receive();
-            }
-        }
-    }
+        private Signal1<Integer> value = new Signal1<Integer>(0);
 
-    @Override
-    public void receive() {
-        emit();
+        public Slot1<Integer> value() {
+            return value;
+        }
+
+        Signal1<Integer> getValueChanged() {
+            return value;
+        }
+
     }
 
 }

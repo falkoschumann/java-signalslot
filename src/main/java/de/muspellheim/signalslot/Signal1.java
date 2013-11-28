@@ -26,19 +26,50 @@
 
 package de.muspellheim.signalslot;
 
+import java.util.Vector;
+
 /**
- * Interface of a signal with one argument.
+ * A signal with one argument.
  * <p/>
  * <p>This signal act as source of data and can connect to any compatible slot.</p>
  *
  * @author Falko Schumann <www.muspellheim.de>
  */
-public interface Signal1<T> extends Slot1<T> {
+public class Signal1<T> extends Slot1<T> {
 
-    void emit(T value);
+    private Vector<Slot1<T>> slots = new Vector<Slot1<T>>();
 
-    void connect(Slot1<T> slot);
+    public Signal1() {
+        this(null);
+    }
 
-    void disconnect(Slot1<T> slot);
+    public Signal1(T value) {
+        super(value);
+    }
+
+    public void emit(T value) {
+        Slot1[] arrLocal;
+        synchronized (this) {
+            arrLocal = slots.toArray(new Slot1[0]);
+        }
+        for (Slot1 e : arrLocal) {
+            e.set(value);
+        }
+    }
+
+    public void connect(Slot1<T> slot) {
+        if (slot == null) throw new NullPointerException("slot");
+        slots.add(slot);
+    }
+
+    public void disconnect(Slot1<T> slot) {
+        if (slot == null) throw new NullPointerException("slot");
+        slots.remove(slot);
+    }
+
+    public void set(T value) {
+        super.set(value);
+        emit(value);
+    }
 
 }

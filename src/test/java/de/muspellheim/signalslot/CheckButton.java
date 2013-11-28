@@ -31,16 +31,12 @@ package de.muspellheim.signalslot;
  *
  * @author Falko Schumann <www.muspellheim.de>
  */
-public class Button {
+public class CheckButton {
 
-    private Signal0 clicked = new Signal0();
+    private Signal1<Boolean> selected = new Signal1<Boolean>();
 
-    public Signal0 clicked() {
-        return clicked;
-    }
-
-    public void push() {
-        clicked.emit();
+    public Signal1 selected() {
+        return selected;
     }
 
 }

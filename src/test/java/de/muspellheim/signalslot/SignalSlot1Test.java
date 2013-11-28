@@ -31,35 +31,11 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
- * Acceptance test for signals and slots.
+ * Acceptance test for signals and slots with one argument.
  *
  * @author Falko Schumann <www.muspellheim.de>
  */
-public class SignalSlotTest {
-
-    @Test
-    public void testButtonClicked_Connected_ReceiveEvent() throws Exception {
-        final Button button = new Button();
-        final Action action = new Action();
-
-        button.clicked().connect(action.doSomeThing());
-        button.push();
-
-        assertTrue(action.isTriggered());
-    }
-
-    @Test
-    public void testButtonClicked_Disconnected_DoNotReceiveEvent() throws Exception {
-        final Button button = new Button();
-        final Action action = new Action();
-
-        button.clicked().connect(action.doSomeThing());
-        button.clicked().disconnect(action.doSomeThing());
-        button.push();
-
-        assertFalse(action.isTriggered());
-    }
-
+public class SignalSlot1Test {
 
     @Test
     public void testServeTea_Connected_FillOneCup() {
@@ -67,10 +43,10 @@ public class SignalSlotTest {
         final Cup cup = new Cup();
         final Tea tea = new Tea();
 
-        pot.pour().connect(cup.infuse());
+        pot.pour().connect(cup.content());
         pot.pour().emit(tea);
 
-        assertSame(tea, cup.getContent());
+        assertSame(tea, cup.content().get());
     }
 
     @Test
@@ -80,12 +56,12 @@ public class SignalSlotTest {
         final Cup cup2 = new Cup();
         final Tea tea = new Tea();
 
-        pot.pour().connect(cup1.infuse());
-        pot.pour().connect(cup2.infuse());
+        pot.pour().connect(cup1.content());
+        pot.pour().connect(cup2.content());
         pot.pour().emit(tea);
 
-        assertSame(tea, cup1.getContent());
-        assertSame(tea, cup2.getContent());
+        assertSame(tea, cup1.content().get());
+        assertSame(tea, cup2.content().get());
     }
 
     @Test
@@ -94,11 +70,11 @@ public class SignalSlotTest {
         final Cup cup = new Cup();
         final Tea tea = new Tea();
 
-        pot.pour().connect(cup.infuse());
-        pot.pour().disconnect(cup.infuse());
+        pot.pour().connect(cup.content());
+        pot.pour().disconnect(cup.content());
         pot.pour().emit(tea);
 
-        assertNull(cup.getContent());
+        assertNull(cup.content().get());
     }
 
     @Test
@@ -148,10 +124,10 @@ public class SignalSlotTest {
         final Tea tea = new Tea();
 
         pot1.pour().connect(pot2.pour());
-        pot2.pour().connect(cup.infuse());
+        pot2.pour().connect(cup.content());
         pot1.pour().emit(tea);
 
-        assertSame(tea, cup.getContent());
+        assertSame(tea, cup.content().get());
     }
 
 }
