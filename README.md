@@ -1,4 +1,4 @@
-Signal and Slot for Java
+Signal and Slot for Java [![Build Status](https://travis-ci.org/falkoschumann/signalslot4java.png)](https://travis-ci.org/falkoschumann/signalslot4java)
 ========================
 
 Introduce signals and slots for Java.
