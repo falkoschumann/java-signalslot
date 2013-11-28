@@ -2,6 +2,6 @@
 target/
 
 # IntelliJ IDEA
-.idea/workspace.xml
-.idea/tasks.xml
+.idea/
+*.iml
 
