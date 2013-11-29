@@ -50,7 +50,26 @@ public class Slot1<T> {
     }
 
     public void set(T value) {
+        T oldValue = this.value;
         this.value = value;
+        valueUpdated();
+        if ((oldValue != value) && !(oldValue != null && oldValue.equals(value))) {
+            valueChanged();
+        }
+    }
+
+    /**
+     * Called every time the value is set.
+     */
+    protected void valueUpdated() {
+        // do nothing
+    }
+
+    /**
+     * Called only if the value changed by setting.
+     */
+    protected void valueChanged() {
+        // do nothing
     }
 
 }

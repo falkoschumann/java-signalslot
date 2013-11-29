@@ -130,4 +130,53 @@ public class SignalSlot1Test {
         assertSame(tea, cup.content().get());
     }
 
+    @Test
+    public void testValueIsUpdated() {
+        Slot1Stub<String> slot = new Slot1Stub<String>();
+        slot.set("Foo");
+        assertTrue(slot.valueIsUpdated);
+    }
+
+    @Test
+    public void testValueIsChanged() {
+        Slot1Stub<String> slot = new Slot1Stub<String>();
+        slot.set("Foo");
+        assertTrue(slot.valueIsChanged);
+        slot.reset();
+        slot.set("Bar");
+        assertTrue(slot.valueIsChanged);
+    }
+
+    @Test
+    public void testValueIsNotChanged() {
+        Slot1Stub<String> slot = new Slot1Stub<String>();
+        slot.set("Foo");
+        assertTrue(slot.valueIsChanged);
+        slot.reset();
+        slot.set("Foo");
+        assertFalse(slot.valueIsChanged);
+    }
+
+    private static class Slot1Stub<T> extends Slot1<T> {
+
+        private boolean valueIsUpdated;
+        private boolean valueIsChanged;
+
+        @Override
+        protected void valueUpdated() {
+            valueIsUpdated = true;
+        }
+
+        @Override
+        protected void valueChanged() {
+            valueIsChanged = true;
+        }
+
+        void reset() {
+            valueIsUpdated = false;
+            valueIsChanged = false;
+        }
+
+    }
+
 }

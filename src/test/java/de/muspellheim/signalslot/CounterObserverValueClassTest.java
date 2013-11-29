@@ -75,11 +75,13 @@ public class CounterObserverValueClassTest {
         }
 
         public void set(T value) {
-            if ((this.value == null) || !this.equals(value)) {
-                this.value = value;
-                setChanged();
-                notifyObservers(value);
+            if ((this.value == value) || (this.value != null && this.value.equals(value))) {
+                return;
             }
+
+            this.value = value;
+            setChanged();
+            notifyObservers(value);
         }
 
         @Override
