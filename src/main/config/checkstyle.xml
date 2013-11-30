@@ -12,11 +12,14 @@
     <!-- Header -->
     <module name="Header">
         <property name="headerFile" value="${checkstyle.header.file}"/>
+        <property name="severity" value="error"/>
     </module>
 
     <!-- Miscellaneous -->
     <module name="NewlineAtEndOfFile"/>
-    <module name="Translation"/>
+    <module name="Translation">
+        <property name="severity" value="error"/>
+    </module>
 
     <!-- Size Violations -->
     <module name="FileLength"/>
@@ -26,32 +29,56 @@
 
         <!-- Annotations -->
         <module name="AnnotationUseStyle"/>
-        <module name="MissingDeprecated"/>
-        <module name="MissingOverride"/>
+        <module name="MissingDeprecated">
+            <property name="severity" value="error"/>
+        </module>
+        <module name="MissingOverride">
+            <property name="severity" value="error"/>
+        </module>
         <module name="PackageAnnotation"/>
         <module name="SuppressWarnings"/>
 
         <!-- Block Checks -->
-        <module name="EmptyBlock"/>
+        <module name="EmptyBlock">
+            <property name="severity" value="error"/>
+        </module>
         <module name="NeedBraces"/>
-        <module name="AvoidNestedBlocks"/>
+        <module name="AvoidNestedBlocks">
+            <property name="severity" value="error"/>
+        </module>
 
         <!-- Class Design -->
         <module name="VisibilityModifier"/>
-        <module name="FinalClass"/>
-        <module name="InterfaceIsType"/>
-        <module name="HideUtilityClassConstructor"/>
-        <module name="DesignForExtension"/>
-        <module name="MutableException"/>
+        <module name="FinalClass">
+            <property name="severity" value="error"/>
+        </module>
+        <module name="InterfaceIsType">
+            <property name="severity" value="error"/>
+        </module>
+        <module name="HideUtilityClassConstructor">
+            <property name="severity" value="error"/>
+        </module>
+        <module name="DesignForExtension">
+            <property name="severity" value="error"/>
+        </module>
+        <module name="MutableException">
+            <property name="severity" value="error"/>
+        </module>
         <module name="ThrowsCount"/>
         <module name="InnerTypeLast"/>
 
         <!-- Coding -->
         <module name="ArrayTrailingComma"/>
-        <module name="CovariantEquals"/>
+        <module name="CovariantEquals">
+            <property name="severity" value="error"/>
+        </module>
         <module name="EmptyStatement"/>
-        <module name="EqualsAvoidNull"/>
-        <module name="EqualsHashCode"/>
+        <module name="EqualsAvoidNull">
+            <property name="severity" value="error"/>
+        </module>
+        <module name="EqualsHashCode">
+            <property name="severity" value="error"/>
+        </module>
         <module name="FinalLocalVariable"/>
         <module name="HiddenField">
             <property name="ignoreConstructorParameter" value="true"/>
@@ -71,8 +98,12 @@
         <module name="NestedForDepth"/>
         <module name="NestedIfDepth"/>
         <module name="NestedTryDepth"/>
-        <module name="SuperClone"/>
-        <module name="SuperFinalize"/>
+        <module name="SuperClone">
+            <property name="severity" value="error"/>
+        </module>
+        <module name="SuperFinalize">
+            <property name="severity" value="error"/>
+        </module>
         <module name="IllegalCatch"/>
         <module name="IllegalThrows"/>
         <module name="PackageDeclaration"/>
