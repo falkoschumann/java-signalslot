@@ -43,8 +43,8 @@ public final class CounterObserverSourceAndTargetTest {
 
     @Test
     public void testCounter() {
-        Counter a = new Counter();
-        Counter b = new Counter();
+        final Counter a = new Counter();
+        final Counter b = new Counter();
         a.source().addObserver(b.target());
 
         a.setValue(12);
@@ -58,14 +58,17 @@ public final class CounterObserverSourceAndTargetTest {
 
     @Test(expected = ClassCastException.class)
     public void testTypeSafety() {
-        Counter intValue = new Counter();
-        Name stringValue = new Name();
+        final Counter intValue = new Counter();
+        final Name stringValue = new Name();
 
         stringValue.source().addObserver(intValue.target());
         stringValue.setValue("Foo");
     }
 
-    public static class Counter {
+    /**
+     * This class holds a integer value.
+     */
+    public static final class Counter {
 
         private SourceObservable source = new SourceObservable();
         private Observer target = new TargetObserver();
@@ -83,7 +86,7 @@ public final class CounterObserverSourceAndTargetTest {
             return value;
         }
 
-        public void setValue(int value) {
+        public void setValue(final int value) {
             if (this.value != value) {
                 this.value = value;
                 source.setChanged();
@@ -91,7 +94,10 @@ public final class CounterObserverSourceAndTargetTest {
             }
         }
 
-        private class SourceObservable extends Observable {
+        /**
+         * This observable act as source of notifications.
+         */
+        private final class SourceObservable extends Observable {
 
             public void setChanged() {
                 // make protected method public
@@ -100,10 +106,13 @@ public final class CounterObserverSourceAndTargetTest {
 
         }
 
-        private class TargetObserver implements Observer {
+        /**
+         * This observer act as target of notifications.
+         */
+        private final class TargetObserver implements Observer {
 
             @Override
-            public void update(Observable o, Object arg) {
+            public void update(final Observable o, final Object arg) {
                 setValue((Integer) arg);
             }
 
@@ -111,7 +120,10 @@ public final class CounterObserverSourceAndTargetTest {
 
     }
 
-    public static class Name {
+    /**
+     * This class holds a string value.
+     */
+    public static final class Name {
 
         private SourceObservable source = new SourceObservable();
         private Observer target = new TargetObserver();
@@ -129,7 +141,7 @@ public final class CounterObserverSourceAndTargetTest {
             return value;
         }
 
-        public void setValue(String value) {
+        public void setValue(final String value) {
             if (this.value != value) {
                 this.value = value;
                 source.setChanged();
@@ -137,7 +149,10 @@ public final class CounterObserverSourceAndTargetTest {
             }
         }
 
-        private class SourceObservable extends Observable {
+        /**
+         * This observable act as source of notifications.
+         */
+        private final class SourceObservable extends Observable {
 
             public void setChanged() {
                 // make protected method public
@@ -146,10 +161,13 @@ public final class CounterObserverSourceAndTargetTest {
 
         }
 
-        private class TargetObserver implements Observer {
+        /**
+         * This observer act as target of notifications.
+         */
+        private final class TargetObserver implements Observer {
 
             @Override
-            public void update(Observable o, Object arg) {
+            public void update(final Observable o, final Object arg) {
                 setValue((String) arg);
             }
 

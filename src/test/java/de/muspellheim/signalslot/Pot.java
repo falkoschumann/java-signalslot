@@ -32,7 +32,7 @@ package de.muspellheim.signalslot;
  *
  * @author Falko Schumann <www.muspellheim.de>
  */
-public class Pot {
+public final class Pot {
 
     private final Signal1<Tea> pourSignal = new Signal1<>();
 

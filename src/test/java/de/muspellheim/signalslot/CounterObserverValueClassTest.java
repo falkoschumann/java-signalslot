@@ -43,8 +43,8 @@ public final class CounterObserverValueClassTest {
 
     @Test
     public void testCounter() {
-        Counter a = new Counter();
-        Counter b = new Counter();
+        final Counter a = new Counter();
+        final Counter b = new Counter();
         a.value.addObserver(b.value);
 
         a.value().set(12);
@@ -58,15 +58,18 @@ public final class CounterObserverValueClassTest {
 
     @Test(expected = ClassCastException.class)
     public void testTypeSafety() {
-        Value<String> stringValue = new Value<>();
-        Value<Integer> integerValue = new Value<>();
+        final Value<String> stringValue = new Value<>();
+        final Value<Integer> integerValue = new Value<>();
 
         stringValue.addObserver(integerValue);
         stringValue.set("Foo");
-        Integer value = integerValue.get();
+        final Integer value = integerValue.get();
     }
 
-    public static class Counter {
+    /**
+     * This class holds a integer value.
+     */
+    public static final class Counter {
 
         private Value<Integer> value = new Value<>();
 
@@ -76,7 +79,12 @@ public final class CounterObserverValueClassTest {
 
     }
 
-    public static class Value<T> extends Observable implements Observer {
+    /**
+     * This class holds a generic value.
+     *
+     * @param <T> type of value
+     */
+    public static final class Value<T> extends Observable implements Observer {
 
         private T value;
 
@@ -84,18 +92,18 @@ public final class CounterObserverValueClassTest {
             return value;
         }
 
-        public void set(T value) {
-            if ((this.value == value) || (this.value != null && this.value.equals(value))) {
+        public void set(final T newValue) {
+            if ((value == newValue) || (value != null && value.equals(newValue))) {
                 return;
             }
 
-            this.value = value;
+            value = newValue;
             setChanged();
             notifyObservers(value);
         }
 
         @Override
-        public void update(Observable o, Object arg) {
+        public void update(final Observable o, final Object arg) {
             value = (T) arg;
         }
 

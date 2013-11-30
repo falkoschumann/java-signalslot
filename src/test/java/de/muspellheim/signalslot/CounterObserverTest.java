@@ -38,12 +38,12 @@ import static org.junit.Assert.assertEquals;
  *
  * @author Falko Schumann &lt;falko.schumann@muspellheim.de&gt;
  */
-public class CounterObserverTest {
+public final class CounterObserverTest {
 
     @Test
     public void testCounter() {
-        Counter a = new Counter();
-        Counter b = new Counter();
+        final Counter a = new Counter();
+        final Counter b = new Counter();
         a.addObserver(b);
 
         a.setValue(12);
@@ -55,7 +55,10 @@ public class CounterObserverTest {
         assertEquals(48, b.getValue());
     }
 
-    public static class Counter extends Observable implements Observer {
+    /**
+     * This class holds a integer value.
+     */
+    public static final class Counter extends Observable implements Observer {
 
         private int value;
 
@@ -63,7 +66,7 @@ public class CounterObserverTest {
             return value;
         }
 
-        public void setValue(int value) {
+        public void setValue(final int value) {
             if (this.value != value) {
                 this.value = value;
                 setChanged();
@@ -72,7 +75,7 @@ public class CounterObserverTest {
         }
 
         @Override
-        public void update(Observable o, Object arg) {
+        public void update(final Observable o, final Object arg) {
             value = (Integer) arg;
         }
     }

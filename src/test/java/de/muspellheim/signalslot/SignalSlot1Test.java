@@ -28,7 +28,10 @@ package de.muspellheim.signalslot;
 
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Acceptance test for signals and slots with one argument.
@@ -95,7 +98,7 @@ public final class SignalSlot1Test {
         final Tea tea = new Tea();
         final Action action = new Action();
 
-        Slot1<Tea> teaTime = new AdapterSlot<>(action.doSomeThing());
+        final Slot1<Tea> teaTime = new AdapterSlot<>(action.doSomeThing());
         pot.pour().connect(teaTime);
         pot.pour().disconnect(teaTime);
         pot.pour().emit(tea);
@@ -132,14 +135,14 @@ public final class SignalSlot1Test {
 
     @Test
     public void testValueIsUpdated() {
-        Slot1Stub<String> slot = new Slot1Stub<>();
+        final Slot1Stub<String> slot = new Slot1Stub<>();
         slot.set("Foo");
         assertTrue(slot.valueIsUpdated);
     }
 
     @Test
     public void testValueIsChanged() {
-        Slot1Stub<String> slot = new Slot1Stub<>();
+        final Slot1Stub<String> slot = new Slot1Stub<>();
         slot.set("Foo");
         assertTrue(slot.valueIsChanged);
         slot.reset();
@@ -149,7 +152,7 @@ public final class SignalSlot1Test {
 
     @Test
     public void testValueIsNotChanged() {
-        Slot1Stub<String> slot = new Slot1Stub<>();
+        final Slot1Stub<String> slot = new Slot1Stub<>();
         slot.set("Foo");
         assertTrue(slot.valueIsChanged);
         slot.reset();
@@ -157,6 +160,11 @@ public final class SignalSlot1Test {
         assertFalse(slot.valueIsChanged);
     }
 
+    /**
+     * Stub to recognize value notifications.
+     *
+     * @param <T> value type
+     */
     private static class Slot1Stub<T> extends Slot1<T> {
 
         private boolean valueIsUpdated;

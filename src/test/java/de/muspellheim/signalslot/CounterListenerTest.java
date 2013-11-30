@@ -38,12 +38,12 @@ import static org.junit.Assert.assertEquals;
  *
  * @author Falko Schumann &lt;falko.schumann@muspellheim.de&gt;
  */
-public class CounterListenerTest {
+public final class CounterListenerTest {
 
     @Test
     public void testCounter() {
-        Counter a = new Counter();
-        Counter b = new Counter();
+        final Counter a = new Counter();
+        final Counter b = new Counter();
         a.addValueListener(b);
 
         a.setValue(12);
@@ -55,13 +55,19 @@ public class CounterListenerTest {
         assertEquals(48, b.getValue());
     }
 
-    public static interface ValueListener extends EventListener {
+    /**
+     * Listener interface for notifying a changed integer value.
+     */
+    public interface ValueListener extends EventListener {
 
         void valueChanged(int value);
 
     }
 
-    public static class Counter implements ValueListener {
+    /**
+     * This class holds a integer value.
+     */
+    public static final class Counter implements ValueListener {
 
         private final EventListenerList listeners = new EventListenerList();
         private int value;
@@ -70,25 +76,25 @@ public class CounterListenerTest {
             return value;
         }
 
-        public void setValue(int value) {
+        public void setValue(final int value) {
             if (this.value != value) {
                 this.value = value;
-                for (ValueListener l : listeners.getListeners(ValueListener.class)) {
+                for (final ValueListener l : listeners.getListeners(ValueListener.class)) {
                     l.valueChanged(value);
                 }
             }
         }
 
-        public void addValueListener(ValueListener l) {
+        public void addValueListener(final ValueListener l) {
             listeners.add(ValueListener.class, l);
         }
 
-        public void removeValueListener(ValueListener l) {
+        public void removeValueListener(final ValueListener l) {
             listeners.remove(ValueListener.class, l);
         }
 
-        public void valueChanged(int value) {
-            this.value = value;
+        public void valueChanged(final int newValue) {
+            this.value = newValue;
         }
 
     }

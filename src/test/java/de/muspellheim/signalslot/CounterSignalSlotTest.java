@@ -35,12 +35,12 @@ import static org.junit.Assert.assertEquals;
  *
  * @author Falko Schumann &lt;falko.schumann@muspellheim.de&gt;
  */
-public class CounterSignalSlotTest {
+public final class CounterSignalSlotTest {
 
     @Test
     public void testCounter() {
-        Counter a = new Counter();
-        Counter b = new Counter();
+        final Counter a = new Counter();
+        final Counter b = new Counter();
         a.getValueChanged().connect(b.value());
 
         a.value().set(12);
@@ -52,7 +52,10 @@ public class CounterSignalSlotTest {
         assertEquals(48, (int) b.value().get());
     }
 
-    public static class Counter {
+    /**
+     * This class holds a integer value.
+     */
+    public static final class Counter {
 
         private Signal1<Integer> value = new Signal1<>(0);
 

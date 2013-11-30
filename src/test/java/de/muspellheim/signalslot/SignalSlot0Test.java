@@ -77,7 +77,7 @@ public final class SignalSlot0Test {
         final CheckButton button = new CheckButton();
         final Action action = new Action();
 
-        Slot1<Boolean> adapter = new AdapterSlot<>(action.doSomeThing());
+        final Slot1<Boolean> adapter = new AdapterSlot<>(action.doSomeThing());
         button.selected().connect(adapter);
         button.selected().disconnect(adapter);
         button.selected().set(true);

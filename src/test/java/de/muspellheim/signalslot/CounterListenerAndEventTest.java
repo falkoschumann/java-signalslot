@@ -43,8 +43,8 @@ public final class CounterListenerAndEventTest {
 
     @Test
     public void testCounter() {
-        Counter a = new Counter();
-        Counter b = new Counter();
+        final Counter a = new Counter();
+        final Counter b = new Counter();
         a.addValueListener(b);
 
         a.setValue(12);
@@ -56,7 +56,10 @@ public final class CounterListenerAndEventTest {
         assertEquals(48, b.getValue());
     }
 
-    public static class Counter implements ValueListener {
+    /**
+     * This class holds a integer value.
+     */
+    public static final class Counter implements ValueListener {
 
         private final EventListenerList listeners = new EventListenerList();
         private int value;
@@ -65,41 +68,47 @@ public final class CounterListenerAndEventTest {
             return value;
         }
 
-        public void setValue(int value) {
+        public void setValue(final int value) {
             if (this.value != value) {
                 this.value = value;
-                ValueEvent e = new ValueEvent(this, value);
+                final ValueEvent e = new ValueEvent(this, value);
                 for (ValueListener l : listeners.getListeners(ValueListener.class)) {
                     l.valueChanged(e);
                 }
             }
         }
 
-        public void addValueListener(ValueListener l) {
+        public void addValueListener(final ValueListener l) {
             listeners.add(ValueListener.class, l);
         }
 
-        public void removeValueListener(ValueListener l) {
+        public void removeValueListener(final ValueListener l) {
             listeners.remove(ValueListener.class, l);
         }
 
-        public void valueChanged(ValueEvent e) {
+        public void valueChanged(final ValueEvent e) {
             this.value = e.getValue();
         }
 
     }
 
-    public static interface ValueListener extends EventListener {
+    /**
+     * Listener interface for notifying a changed integer value.
+     */
+    public interface ValueListener extends EventListener {
 
         void valueChanged(ValueEvent e);
 
     }
 
-    public static class ValueEvent extends EventObject {
+    /**
+     * This Event holds a integer value.
+     */
+    public static final class ValueEvent extends EventObject {
 
         private int value;
 
-        public ValueEvent(Object source, int value) {
+        public ValueEvent(final Object source, final int value) {
             super(source);
             this.value = value;
         }

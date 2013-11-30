@@ -6,6 +6,10 @@
 
     <property name="severity" value="warning"/>
 
+    <module name="SuppressionFilter">
+        <property name="file" value="${checkstyle.suppressions.file}"/>
+    </module>
+
     <!-- Javadoc Comments -->
     <module name="JavadocPackage"/>
 
@@ -23,6 +27,9 @@
 
     <!-- Size Violations -->
     <module name="FileLength"/>
+
+    <!-- Whitespace -->
+    <module name="FileTabCharacter"/>
 
     <module name="TreeWalker">
         <property name="tabWidth" value="4"/>
@@ -123,7 +130,6 @@
         <module name="IllegalImport"/>
         <module name="RedundantImport"/>
         <module name="UnusedImports"/>
-        <module name="ImportOrder"/>
 
         <!-- Javadoc Comments -->
         <module name="JavadocType"/>
@@ -183,4 +189,5 @@
         <module name="WhitespaceAround"/>
 
     </module>
+
 </module>
