@@ -28,10 +28,12 @@
  * API for using signals and slots.
  *
  * <p>There are signals and slot with one and without arguments. A signal can connect to a slot. If
- * a signal is emitted all connected slots receive the event of {@link Signal0} or data of
- * {@link Signal1}.</p>
+ * a signal is emitted all connected slots receive the event of
+ * {@link de.muspellheim.signalslot.Signal0} or data of
+ * {@link de.muspellheim.signalslot.Signal1}.</p>
  *
- * <p>The {@link AdapterSlot} allows connecting {@link Slot0} to {@link Signal1}</p>
+ * <p>The {@link de.muspellheim.signalslot.AdapterSlot} allows connecting
+ * {@link de.muspellheim.signalslot.Slot0} to {@link de.muspellheim.signalslot.Signal1}</p>
  *
  * <p>Signals can be chained.</p>
  */

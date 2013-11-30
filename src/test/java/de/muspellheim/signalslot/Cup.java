@@ -31,9 +31,9 @@ package de.muspellheim.signalslot;
  *
  * @author Falko Schumann <www.muspellheim.de>
  */
-public class Cup {
+public final class Cup {
 
-    private final Slot1<Tea> content = new Slot1<Tea>();
+    private final Slot1<Tea> content = new Slot1<>();
 
     public Slot1<Tea> content() {
         return content;

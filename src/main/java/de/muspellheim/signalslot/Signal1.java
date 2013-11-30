@@ -26,50 +26,57 @@
 
 package de.muspellheim.signalslot;
 
-import java.util.Vector;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * A signal with one argument.
  * <p/>
  * <p>This signal act as source of data and can connect to any compatible slot.</p>
  *
+ * @param <T> value type
  * @author Falko Schumann <www.muspellheim.de>
  */
-public class Signal1<T> extends Slot1<T> {
+public final class Signal1<T> extends Slot1<T> {
 
-    private Vector<Slot1<T>> slots = new Vector<Slot1<T>>();
+    private List<Slot1<T>> slots = Collections.synchronizedList(new ArrayList<Slot1<T>>());
 
     public Signal1() {
         this(null);
     }
 
-    public Signal1(T value) {
+    public Signal1(final T value) {
         super(value);
     }
 
-    public void emit(T value) {
-        Slot1[] arrLocal;
+    public void emit(final T value) {
+        Slot1<T>[] arrLocal;
         synchronized (this) {
-            arrLocal = slots.toArray(new Slot1[0]);
+            arrLocal = slots.toArray(new Slot1[slots.size()]);
         }
-        for (Slot1 e : arrLocal) {
+        for (Slot1<T> e : arrLocal) {
             e.set(value);
         }
     }
 
-    public void connect(Slot1<T> slot) {
-        if (slot == null) throw new NullPointerException("slot");
+    public void connect(final Slot1<T> slot) {
+        if (slot == null) {
+            throw new NullPointerException("slot");
+        }
         slots.add(slot);
     }
 
-    public void disconnect(Slot1<T> slot) {
-        if (slot == null) throw new NullPointerException("slot");
+    public void disconnect(final Slot1<T> slot) {
+        if (slot == null) {
+            throw new NullPointerException("slot");
+        }
         slots.remove(slot);
     }
 
-    public void set(T value) {
-        super.set(value);
-        emit(value);
+    @Override
+    protected void valueUpdated() {
+        emit(get());
     }
 
 }

@@ -31,7 +31,7 @@ package de.muspellheim.signalslot;
  *
  * @author Falko Schumann <www.muspellheim.de>
  */
-public class Tea {
+public final class Tea {
 
     // nix
 

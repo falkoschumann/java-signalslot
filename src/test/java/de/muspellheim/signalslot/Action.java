@@ -31,7 +31,7 @@ package de.muspellheim.signalslot;
  *
  * @author Falko Schumann <www.muspellheim.de>
  */
-public class Action {
+public final class Action {
 
     private Slot0 doSomeThing = new Slot0() {
 

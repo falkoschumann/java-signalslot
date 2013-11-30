@@ -31,6 +31,7 @@ package de.muspellheim.signalslot;
  * <p/>
  * <p>This slot act as receiver of data.</p>
  *
+ * @param <T> value type
  * @author Falko Schumann <www.muspellheim.de>
  */
 public class Slot1<T> {
@@ -41,19 +42,19 @@ public class Slot1<T> {
         this(null);
     }
 
-    public Slot1(T value) {
+    public Slot1(final T value) {
         this.value = value;
     }
 
-    public T get() {
+    public final T get() {
         return value;
     }
 
-    public void set(T value) {
-        T oldValue = this.value;
-        this.value = value;
+    public final void set(final T newValue) {
+        final T oldValue = this.value;
+        this.value = newValue;
         valueUpdated();
-        if ((oldValue != value) && !(oldValue != null && oldValue.equals(value))) {
+        if ((oldValue != newValue) && !(oldValue != null && oldValue.equals(newValue))) {
             valueChanged();
         }
     }

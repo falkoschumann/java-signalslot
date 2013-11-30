@@ -24,49 +24,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-package de.muspellheim.signalslot;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 /**
- * A signal without arguments.
- * <p/>
- * <p>This signal act as source of an event and can connect to any compatible slot.</p>
- *
- * @author Falko Schumann <www.muspellheim.de>
+ * Unit Tests for Signal and Slot for Java.
  */
-public final class Signal0 implements Slot0 {
-
-    private List<Slot0> slots = Collections.synchronizedList(new ArrayList<Slot0>());
-
-    public void emit() {
-        Slot0[] arrLocal;
-        synchronized (this) {
-            arrLocal = slots.toArray(new Slot0[slots.size()]);
-        }
-        for (Slot0 e : arrLocal) {
-            e.receive();
-        }
-    }
-
-    public void connect(final Slot0 slot) {
-        if (slot == null) {
-            throw new NullPointerException("slot");
-        }
-        slots.add(slot);
-    }
-
-    public void disconnect(final Slot0 slot) {
-        if (slot == null) {
-            throw new NullPointerException("slot");
-        }
-        slots.remove(slot);
-    }
-
-    public void receive() {
-        emit();
-    }
-
-}
+package de.muspellheim.signalslot;

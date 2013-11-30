@@ -35,7 +35,7 @@ import static org.junit.Assert.*;
  *
  * @author Falko Schumann <www.muspellheim.de>
  */
-public class SignalSlot1Test {
+public final class SignalSlot1Test {
 
     @Test
     public void testServeTea_Connected_FillOneCup() {
@@ -95,7 +95,7 @@ public class SignalSlot1Test {
         final Tea tea = new Tea();
         final Action action = new Action();
 
-        Slot1<Tea> teaTime = new AdapterSlot<Tea>(action.doSomeThing());
+        Slot1<Tea> teaTime = new AdapterSlot<>(action.doSomeThing());
         pot.pour().connect(teaTime);
         pot.pour().disconnect(teaTime);
         pot.pour().emit(tea);
@@ -132,14 +132,14 @@ public class SignalSlot1Test {
 
     @Test
     public void testValueIsUpdated() {
-        Slot1Stub<String> slot = new Slot1Stub<String>();
+        Slot1Stub<String> slot = new Slot1Stub<>();
         slot.set("Foo");
         assertTrue(slot.valueIsUpdated);
     }
 
     @Test
     public void testValueIsChanged() {
-        Slot1Stub<String> slot = new Slot1Stub<String>();
+        Slot1Stub<String> slot = new Slot1Stub<>();
         slot.set("Foo");
         assertTrue(slot.valueIsChanged);
         slot.reset();
@@ -149,7 +149,7 @@ public class SignalSlot1Test {
 
     @Test
     public void testValueIsNotChanged() {
-        Slot1Stub<String> slot = new Slot1Stub<String>();
+        Slot1Stub<String> slot = new Slot1Stub<>();
         slot.set("Foo");
         assertTrue(slot.valueIsChanged);
         slot.reset();

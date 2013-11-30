@@ -31,7 +31,7 @@ package de.muspellheim.signalslot;
  *
  * @author Falko Schumann <www.muspellheim.de>
  */
-public class Button {
+public final class Button {
 
     private Signal0 clicked = new Signal0();
 

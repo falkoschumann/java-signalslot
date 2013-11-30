@@ -54,7 +54,7 @@ public class CounterSignalSlotTest {
 
     public static class Counter {
 
-        private Signal1<Integer> value = new Signal1<Integer>(0);
+        private Signal1<Integer> value = new Signal1<>(0);
 
         public Slot1<Integer> value() {
             return value;

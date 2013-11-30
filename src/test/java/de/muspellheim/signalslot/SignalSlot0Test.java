@@ -35,7 +35,7 @@ import static org.junit.Assert.*;
  *
  * @author Falko Schumann <www.muspellheim.de>
  */
-public class SignalSlot0Test {
+public final class SignalSlot0Test {
 
     @Test
     public void testButtonClicked_Connected_ReceiveEvent() throws Exception {
@@ -65,7 +65,7 @@ public class SignalSlot0Test {
         final CheckButton button = new CheckButton();
         final Action action = new Action();
 
-        button.selected().connect(new AdapterSlot(action.doSomeThing()));
+        button.selected().connect(new AdapterSlot<Boolean>(action.doSomeThing()));
         button.selected().set(true);
 
         assertTrue(action.isTriggered());
@@ -76,7 +76,7 @@ public class SignalSlot0Test {
         final CheckButton button = new CheckButton();
         final Action action = new Action();
 
-        Slot1<Boolean> adapter = new AdapterSlot<Boolean>(action.doSomeThing());
+        Slot1<Boolean> adapter = new AdapterSlot<>(action.doSomeThing());
         button.selected().connect(adapter);
         button.selected().disconnect(adapter);
         button.selected().set(true);

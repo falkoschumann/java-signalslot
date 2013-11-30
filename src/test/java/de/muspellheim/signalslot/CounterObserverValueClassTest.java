@@ -39,7 +39,7 @@ import static org.junit.Assert.assertEquals;
  *
  * @author Falko Schumann &lt;falko.schumann@muspellheim.de&gt;
  */
-public class CounterObserverValueClassTest {
+public final class CounterObserverValueClassTest {
 
     @Test
     public void testCounter() {
@@ -48,19 +48,19 @@ public class CounterObserverValueClassTest {
         a.value.addObserver(b.value);
 
         a.value().set(12);
-        assertEquals(12, a.value().get());
-        assertEquals(12, b.value().get());
+        assertEquals(12, (int) a.value().get());
+        assertEquals(12, (int) b.value().get());
 
         b.value().set(48);
-        assertEquals(12, a.value().get());
-        assertEquals(48, b.value().get());
+        assertEquals(12, (int) a.value().get());
+        assertEquals(48, (int) b.value().get());
     }
 
     public static class Counter {
 
-        private Value value = new Value();
+        private Value<Integer> value = new Value<>();
 
-        public Value value() {
+        public Value<Integer> value() {
             return value;
         }
 

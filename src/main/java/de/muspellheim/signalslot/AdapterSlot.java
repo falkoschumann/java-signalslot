@@ -29,18 +29,19 @@ package de.muspellheim.signalslot;
 /**
  * Adapt from {@link Slot0} to {@link Slot1}.
  *
+ * @param <T> value type
  * @author Falko Schumann <www.muspellheim.de>
  */
 public class AdapterSlot<T> extends Slot1<T> {
 
     private final Slot0 slot;
 
-    public AdapterSlot(Slot0 slot) {
+    public AdapterSlot(final Slot0 slot) {
         this.slot = slot;
     }
 
     @Override
-    public void set(T value) {
+    protected final void valueUpdated() {
         slot.receive();
     }
 
