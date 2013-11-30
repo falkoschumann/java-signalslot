@@ -88,9 +88,7 @@
         <module name="OneStatementPerLine"/>
 
         <!-- Imports -->
-        <module name="AvoidStarImport">
-            <property name="allowStaticMemberImports" value="true"/>
-        </module>
+        <module name="AvoidStarImport"/>
         <module name="IllegalImport"/>
         <module name="RedundantImport"/>
         <module name="UnusedImports"/>

@@ -65,6 +65,9 @@ public final class Signal0 implements Slot0 {
         slots.remove(slot);
     }
 
+    /**
+     * Emit the signal.
+     */
     public void receive() {
         emit();
     }

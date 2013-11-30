@@ -40,6 +40,9 @@ public class AdapterSlot<T> extends Slot1<T> {
         this.slot = slot;
     }
 
+    /**
+     * Trigger the wrapped {@link Slot0}.
+     */
     @Override
     protected final void valueUpdated() {
         slot.receive();

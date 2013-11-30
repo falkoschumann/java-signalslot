@@ -56,6 +56,15 @@ public final class CounterObserverSourceAndTargetTest {
         assertEquals(48, b.getValue());
     }
 
+    @Test(expected = ClassCastException.class)
+    public void testTypeSafety() {
+        Counter intValue = new Counter();
+        Name stringValue = new Name();
+
+        stringValue.source().addObserver(intValue.target());
+        stringValue.setValue("Foo");
+    }
+
     public static class Counter {
 
         private SourceObservable source = new SourceObservable();
@@ -96,6 +105,52 @@ public final class CounterObserverSourceAndTargetTest {
             @Override
             public void update(Observable o, Object arg) {
                 setValue((Integer) arg);
+            }
+
+        }
+
+    }
+
+    public static class Name {
+
+        private SourceObservable source = new SourceObservable();
+        private Observer target = new TargetObserver();
+        private String value;
+
+        public Observable source() {
+            return source;
+        }
+
+        public Observer target() {
+            return target;
+        }
+
+        public String getValue() {
+            return value;
+        }
+
+        public void setValue(String value) {
+            if (this.value != value) {
+                this.value = value;
+                source.setChanged();
+                source.notifyObservers(value);
+            }
+        }
+
+        private class SourceObservable extends Observable {
+
+            public void setChanged() {
+                // make protected method public
+                super.setChanged();
+            }
+
+        }
+
+        private class TargetObserver implements Observer {
+
+            @Override
+            public void update(Observable o, Object arg) {
+                setValue((String) arg);
             }
 
         }

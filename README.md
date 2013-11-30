@@ -38,7 +38,11 @@ this approach.
 
 An other approach introduce a new value class holding the transferable value.
 The value class extends `Observable` and implements `Observer`. The unit test
- `CounterObserverValueClassTest` show this.
+`CounterObserverValueClassTest` show this.
+
+Both approaches are not type safe. The `addObserver` method do not check the
+value type, producing a `ClassCastException` while notifying or getting a value.
+The source and target approach needs additional internal classes.
 
 
 Introduce Signals and Slots

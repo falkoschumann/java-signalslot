@@ -56,6 +56,16 @@ public final class CounterObserverValueClassTest {
         assertEquals(48, (int) b.value().get());
     }
 
+    @Test(expected = ClassCastException.class)
+    public void testTypeSafety() {
+        Value<String> stringValue = new Value<>();
+        Value<Integer> integerValue = new Value<>();
+
+        stringValue.addObserver(integerValue);
+        stringValue.set("Foo");
+        Integer value = integerValue.get();
+    }
+
     public static class Counter {
 
         private Value<Integer> value = new Value<>();
