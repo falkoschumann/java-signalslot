@@ -39,6 +39,7 @@ import java.util.List;
 public class Signal<T> implements Slot<T> {
 
     private List<Slot<T>> slots = Collections.synchronizedList(new ArrayList<Slot<T>>());
+    private boolean blocked;
 
     public final void connect(final Slot<T> slot) {
         if (slot == null) {
@@ -54,7 +55,15 @@ public class Signal<T> implements Slot<T> {
         slots.remove(slot);
     }
 
+    public final void disconnectAll() {
+        slots.clear();
+    }
+
     public final void emit(final T value) {
+        if (blocked) {
+            return;
+        }
+
         Slot<T>[] arrLocal;
         synchronized (this) {
             arrLocal = slots.toArray(new Slot[slots.size()]);
@@ -64,8 +73,16 @@ public class Signal<T> implements Slot<T> {
         }
     }
 
+    public final boolean isBlocked() {
+        return blocked;
+    }
+
+    public final void setBlocked(final boolean blocked) {
+        this.blocked = blocked;
+    }
+
     @Override
-    public final void receive(T value) {
+    public final void receive(final T value) {
         emit(value);
     }
 

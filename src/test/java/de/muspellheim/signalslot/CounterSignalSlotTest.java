@@ -66,6 +66,84 @@ public final class CounterSignalSlotTest {
         assertEquals(12, (int) c.value().get());
     }
 
+    @Test
+    public void testSetSameValue() {
+        final Counter a = new Counter();
+        final Counter b = new Counter();
+        final Counter c = new Counter();
+
+        a.value().connect(b.value());
+        a.value().set(12);
+        assertEquals(12, (int) a.value().get());
+        assertEquals(12, (int) b.value().get());
+
+        a.value().connect(c.value());
+        a.value().set(12);
+        assertEquals(12, (int) a.value().get());
+        assertEquals(0, (int) c.value().get());
+    }
+
+    @Test
+    public void testDisconnect() {
+        final Counter a = new Counter();
+        final Counter b = new Counter();
+        final Counter c = new Counter();
+        a.value().connect(b.value());
+        a.value().connect(c.value());
+
+        a.value().set(12);
+        assertEquals(12, (int) a.value().get());
+        assertEquals(12, (int) b.value().get());
+        assertEquals(12, (int) c.value().get());
+
+        a.value().disconnect(c.value());
+        a.value().set(42);
+        assertEquals(42, (int) a.value().get());
+        assertEquals(42, (int) b.value().get());
+        assertEquals(12, (int) c.value().get());
+    }
+
+    @Test
+    public void testDisconnectAll() {
+        final Counter a = new Counter();
+        final Counter b = new Counter();
+        final Counter c = new Counter();
+        a.value().connect(b.value());
+        a.value().connect(c.value());
+
+        a.value().set(12);
+        assertEquals(12, (int) a.value().get());
+        assertEquals(12, (int) b.value().get());
+        assertEquals(12, (int) c.value().get());
+
+        a.value().disconnectAll();
+        a.value().set(42);
+        assertEquals(42, (int) a.value().get());
+        assertEquals(12, (int) b.value().get());
+        assertEquals(12, (int) c.value().get());
+    }
+
+    @Test
+    public void testBlockSignal() {
+        final Counter a = new Counter();
+        final Counter b = new Counter();
+        a.value().connect(b.value());
+
+        a.value().set(12);
+        assertEquals(12, (int) a.value().get());
+        assertEquals(12, (int) b.value().get());
+
+        a.value().setBlocked(true);
+        a.value().set(42);
+        assertEquals(42, (int) a.value().get());
+        assertEquals(12, (int) b.value().get());
+
+        a.value().setBlocked(false);
+        a.value().set(24);
+        assertEquals(24, (int) a.value().get());
+        assertEquals(24, (int) b.value().get());
+    }
+
     /**
      * This class holds a integer value.
      */
