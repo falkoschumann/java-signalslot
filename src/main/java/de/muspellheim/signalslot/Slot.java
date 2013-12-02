@@ -27,16 +27,13 @@
 package de.muspellheim.signalslot;
 
 /**
- * A very simple UI Button.
+ * A slot act as receiver of data.
  *
+ * @param <T> value type
  * @author Falko Schumann <www.muspellheim.de>
  */
-public final class CheckButton {
+public interface Slot<T> {
 
-    private Signal1<Boolean> selected = new Signal1<>();
-
-    public Signal1<Boolean> selected() {
-        return selected;
-    }
+    void receive(T value);
 
 }

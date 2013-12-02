@@ -41,7 +41,7 @@ public final class CounterSignalSlotTest {
     public void testCounter() {
         final Counter a = new Counter();
         final Counter b = new Counter();
-        a.getValueChanged().connect(b.value());
+        a.value().connect(b.value());
 
         a.value().set(12);
         assertEquals(12, (int) a.value().get());
@@ -52,18 +52,28 @@ public final class CounterSignalSlotTest {
         assertEquals(48, (int) b.value().get());
     }
 
+    @Test
+    public void testChainSignals() {
+        final Counter a = new Counter();
+        final Counter b = new Counter();
+        final Counter c = new Counter();
+        a.value().connect(b.value());
+        b.value().connect(c.value());
+
+        a.value().set(12);
+        assertEquals(12, (int) a.value().get());
+        assertEquals(12, (int) b.value().get());
+        assertEquals(12, (int) c.value().get());
+    }
+
     /**
      * This class holds a integer value.
      */
     public static final class Counter {
 
-        private Signal1<Integer> value = new Signal1<>(0);
+        private ValueSlot<Integer> value = new ValueSlot<>(0);
 
-        public Slot1<Integer> value() {
-            return value;
-        }
-
-        Signal1<Integer> getValueChanged() {
+        public ValueSlot<Integer> value() {
             return value;
         }
 

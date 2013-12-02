@@ -30,10 +30,10 @@
  * <p>There are signals and slot with one and without arguments. A signal can connect to a slot. If
  * a signal is emitted all connected slots receive the event of
  * {@link de.muspellheim.signalslot.Signal0} or data of
- * {@link de.muspellheim.signalslot.Signal1}.</p>
+ * {@link de.muspellheim.signalslot.Signal}.</p>
  *
  * <p>The {@link de.muspellheim.signalslot.AdapterSlot} allows connecting
- * {@link de.muspellheim.signalslot.Slot0} to {@link de.muspellheim.signalslot.Signal1}</p>
+ * {@link de.muspellheim.signalslot.Slot0} to {@link de.muspellheim.signalslot.Signal}</p>
  *
  * <p>Signals can be chained.</p>
  */

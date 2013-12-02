@@ -26,17 +26,47 @@
 
 package de.muspellheim.signalslot;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 /**
- * A small container for drink.
+ * A signal act as source of data and can connect to any compatible slot.
  *
+ * @param <T> value type
  * @author Falko Schumann <www.muspellheim.de>
  */
-public final class Cup {
+public class Signal<T> implements Slot<T> {
 
-    private final Slot1<Tea> content = new Slot1<>();
+    private List<Slot<T>> slots = Collections.synchronizedList(new ArrayList<Slot<T>>());
 
-    public Slot1<Tea> content() {
-        return content;
+    public final void connect(final Slot<T> slot) {
+        if (slot == null) {
+            throw new NullPointerException("slot");
+        }
+        slots.add(slot);
+    }
+
+    public final void disconnect(final Slot<T> slot) {
+        if (slot == null) {
+            throw new NullPointerException("slot");
+        }
+        slots.remove(slot);
+    }
+
+    public final void emit(final T value) {
+        Slot<T>[] arrLocal;
+        synchronized (this) {
+            arrLocal = slots.toArray(new Slot[slots.size()]);
+        }
+        for (Slot<T> e : arrLocal) {
+            e.receive(value);
+        }
+    }
+
+    @Override
+    public final void receive(T value) {
+        emit(value);
     }
 
 }
