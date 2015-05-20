@@ -15,7 +15,7 @@
 
     <!-- Header -->
     <module name="Header">
-        <property name="headerFile" value="${checkstyle.header.file}"/>
+        <property name="header" value="/*\n * Copyright (c) 2013-2015 Falko Schumann &lt;www.muspellheim.de&gt;\n * Released under the terms of the MIT License.\n */"/>
         <property name="severity" value="error"/>
     </module>
 
