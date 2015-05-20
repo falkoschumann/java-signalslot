@@ -32,6 +32,7 @@ package de.muspellheim.signalslot;
  * @param <T> value type
  * @author Falko Schumann <www.muspellheim.de>
  */
+@FunctionalInterface
 public interface Slot<T> {
 
     void receive(T value);
