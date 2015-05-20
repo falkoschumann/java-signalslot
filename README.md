@@ -1,4 +1,4 @@
-Signal and Slot for Java [![Build Status](https://travis-ci.org/falkoschumann/signalslot4java.svg?branch=master)](https://travis-ci.org/falkoschumann/signalslot4java)
+Signal and Slot for Java [![Build Status](https://travis-ci.org/falkoschumann/signalslot4java.svg?branch=develop)](https://travis-ci.org/falkoschumann/signalslot4java)
 ========================
 
 Introduce signals and slots for Java. Signals and slots provide a mechanism to
