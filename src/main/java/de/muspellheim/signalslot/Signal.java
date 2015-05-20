@@ -60,7 +60,7 @@ public class Signal<T> implements Slot<T> {
     }
 
     public final void emit(final T value) {
-        if (blocked) {
+        if (isBlocked()) {
             return;
         }
 

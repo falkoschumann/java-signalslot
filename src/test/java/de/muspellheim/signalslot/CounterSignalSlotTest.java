@@ -29,6 +29,7 @@ package de.muspellheim.signalslot;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Ported Qt simple example of signals and slots to Java.
@@ -52,6 +53,18 @@ public final class CounterSignalSlotTest {
         assertEquals(48, b.getValue());
     }
 
+    @Test(expected = NullPointerException.class)
+    public void testConnectNull_NullPointerException() {
+        final Counter a = new Counter();
+        a.valueChanged.connect(null); // must throw exception
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void testDisconnectNull_NullPointerException() {
+        final Counter a = new Counter();
+        a.valueChanged.disconnect(null); // must throw exception
+    }
+
     @Test
     public void testChainSignals() {
         final Counter a = new Counter();
@@ -65,6 +78,18 @@ public final class CounterSignalSlotTest {
         assertEquals(12, b.getValue());
         assertEquals(12, c.getValue());
     }
+
+    @Test
+    public void testChainSignals_Variant() {
+        Signal<String> signal1 = new Signal<>();
+        Signal<String> signal2 = new Signal<>();
+
+        signal1.connect(signal2);
+        signal2.connect(s -> assertTrue("Foo".equals(s)));
+
+        signal1.emit("Foo");
+    }
+
 
     @Test
     public void testSetSameValue() {
