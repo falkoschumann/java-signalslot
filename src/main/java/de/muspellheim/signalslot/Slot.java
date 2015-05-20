@@ -30,7 +30,7 @@ package de.muspellheim.signalslot;
  * A slot act as receiver of data.
  *
  * @param <T> value type
- * @author Falko Schumann <www.muspellheim.de>
+ * @author Falko Schumann &lt;www.muspellheim.de&gt;
  */
 @FunctionalInterface
 public interface Slot<T> {

@@ -29,7 +29,6 @@ package de.muspellheim.signalslot;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertSame;
 
 /**
  * Ported Qt simple example of signals and slots to Java.
@@ -90,7 +89,7 @@ public final class CounterSignalSlotTest {
         final Counter b = new Counter();
         final Counter c = new Counter();
         a.valueChanged().connect(b::setValue);
-        Slot<Integer> slotSetValueOfC = c::setValue;
+        final Slot<Integer> slotSetValueOfC = c::setValue;
         a.valueChanged().connect(slotSetValueOfC);
 
         a.setValue(12);
@@ -174,14 +173,14 @@ public final class CounterSignalSlotTest {
     public static final class Counter {
 
         private final Signal<Integer> valueChanged = new Signal<>();
-        private int value = 0;
+        private int value;
         private Slot<Integer> valueSlot = this::setValue;
 
         public int getValue() {
             return value;
         }
 
-        public void setValue(int value) {
+        public void setValue(final int value) {
             if (value != this.value) {
                 this.value = value;
                 valueChanged().emit(value);

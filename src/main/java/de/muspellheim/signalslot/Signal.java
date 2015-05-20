@@ -34,7 +34,7 @@ import java.util.List;
  * A signal act as source of data and can connect to any compatible slot.
  *
  * @param <T> value type
- * @author Falko Schumann <www.muspellheim.de>
+ * @author Falko Schumann &lt;www.muspellheim.de&gt;
  */
 public class Signal<T> implements Slot<T> {
 
