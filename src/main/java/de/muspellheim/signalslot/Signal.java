@@ -5,9 +5,8 @@
 
 package de.muspellheim.signalslot;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * A signal act as source of data and can connect to any compatible slot.
@@ -17,7 +16,7 @@ import java.util.List;
  */
 public class Signal<T> implements Slot<T> {
 
-    private List<Slot<T>> slots = Collections.synchronizedList(new ArrayList<Slot<T>>());
+    private List<Slot<T>> slots = new CopyOnWriteArrayList<>();
     private boolean blocked;
 
     public final void connect(final Slot<T> slot) {
@@ -43,11 +42,7 @@ public class Signal<T> implements Slot<T> {
             return;
         }
 
-        Slot<T>[] arrLocal;
-        synchronized (this) {
-            arrLocal = slots.toArray(new Slot[slots.size()]);
-        }
-        for (Slot<T> e : arrLocal) {
+        for (Slot<T> e : slots) {
             e.receive(value);
         }
     }
