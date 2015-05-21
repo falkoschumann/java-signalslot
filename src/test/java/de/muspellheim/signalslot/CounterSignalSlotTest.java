@@ -7,8 +7,7 @@ package de.muspellheim.signalslot;
 
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 /**
  * Ported Qt simple example of signals and slots to Java.
@@ -33,13 +32,13 @@ public final class CounterSignalSlotTest {
     }
 
     @Test(expected = NullPointerException.class)
-    public void testConnectNull_NullPointerException() {
+    public void testConnectNull() {
         final Counter a = new Counter();
         a.valueChanged.connect(null);
     }
 
     @Test(expected = NullPointerException.class)
-    public void testDisconnectNull_NullPointerException() {
+    public void testDisconnectNull() {
         final Counter a = new Counter();
         a.valueChanged.disconnect(null);
     }
@@ -60,8 +59,8 @@ public final class CounterSignalSlotTest {
 
     @Test
     public void testChainSignals_Variant() {
-        final Signal<String> signal1 = new Signal<>();
-        final Signal<String> signal2 = new Signal<>();
+        final Signal1<String> signal1 = new Signal1<>();
+        final Signal1<String> signal2 = new Signal1<>();
 
         signal1.connect(signal2);
         signal2.connect(s -> assertTrue("Foo".equals(s)));
@@ -71,7 +70,7 @@ public final class CounterSignalSlotTest {
 
 
     @Test
-    public void testSetSameValue() {
+    public void testSetSameValue_SecondTryEmitNoSignal() {
         final Counter a = new Counter();
         final Counter b = new Counter();
         final Counter c = new Counter();
@@ -87,67 +86,58 @@ public final class CounterSignalSlotTest {
         assertEquals(0, c.getValue());
     }
 
+    @Test(expected = AssertionError.class)
+    public void testBehaviourIdentity() {
+        final Counter a = new Counter();
+        final Slot1<Integer> s1 = a::setValue;
+        final Slot1<Integer> s2 = a::setValue;
+
+        assertSame(s1, s2);
+    }
+
+
+    @Test(expected = AssertionError.class)
+    public void testBehaviourEquality() {
+        final Counter a = new Counter();
+        final Slot1<Integer> s1 = a::setValue;
+        final Slot1<Integer> s2 = a::setValue;
+
+        assertEquals(s1, s2);
+    }
+
     @Test
     public void testDisconnect() {
         final Counter a = new Counter();
         final Counter b = new Counter();
-        final Counter c = new Counter();
-        a.valueChanged().connect(b::setValue);
-        final Slot<Integer> slotSetValueOfC = c::setValue;
-        a.valueChanged().connect(slotSetValueOfC);
+        final Slot1<Integer> slot = b::setValue;
+        a.valueChanged().connect(slot);
 
         a.setValue(12);
         assertEquals(12, a.getValue());
         assertEquals(12, b.getValue());
-        assertEquals(12, c.getValue());
 
         // TODO Workaround: to disconnect a slot, we must remember the method reference
-        a.valueChanged().disconnect(slotSetValueOfC);
+        a.valueChanged().disconnect(slot);
         a.setValue(42);
         assertEquals(42, a.getValue());
-        assertEquals(42, b.getValue());
-        assertEquals(12, c.getValue());
+        assertEquals(12, b.getValue());
     }
 
     @Test
     public void testDisconnect_Variant() {
         final Counter a = new Counter();
         final Counter b = new Counter();
-        final Counter c = new Counter();
-        a.valueChanged().connect(b::setValue);
-        a.valueChanged().connect(c.setValue());
+        a.valueChanged().connect(b.setValue());
 
         a.setValue(12);
         assertEquals(12, a.getValue());
         assertEquals(12, b.getValue());
-        assertEquals(12, c.getValue());
 
         // TODO Workaround: to disconnect a slot, we must have reference a slot instance
-        a.valueChanged().disconnect(c.setValue());
-        a.setValue(42);
-        assertEquals(42, a.getValue());
-        assertEquals(42, b.getValue());
-        assertEquals(12, c.getValue());
-    }
-
-    @Test
-    public void testDisconnectAll() {
-        final Counter a = new Counter();
-        final Counter b = new Counter();
-        final Counter c = new Counter();
-        a.valueChanged().connect(b::setValue);
-        a.valueChanged().connect(c::setValue);
-
-        a.setValue(12);
-        assertEquals(12, a.getValue());
-        assertEquals(12, b.getValue());
-        assertEquals(12, c.getValue());
-
-        a.valueChanged().disconnectAll();
+        a.valueChanged().disconnect(b.setValue());
         a.setValue(42);
         assertEquals(42, a.getValue());
         assertEquals(12, b.getValue());
-        assertEquals(12, c.getValue());
     }
 
     @Test
@@ -176,9 +166,9 @@ public final class CounterSignalSlotTest {
      */
     public static final class Counter {
 
-        private final Signal<Integer> valueChanged = new Signal<>();
+        private final Signal1<Integer> valueChanged = new Signal1<>();
         private int value;
-        private Slot<Integer> valueSlot = this::setValue;
+        private Slot1<Integer> valueSlot = this::setValue;
 
         public int getValue() {
             return value;
@@ -191,11 +181,11 @@ public final class CounterSignalSlotTest {
             }
         }
 
-        public Signal<Integer> valueChanged() {
+        public Signal1<Integer> valueChanged() {
             return valueChanged;
         }
 
-        public Slot<Integer> setValue() {
+        public Slot1<Integer> setValue() {
             return valueSlot;
         }
 

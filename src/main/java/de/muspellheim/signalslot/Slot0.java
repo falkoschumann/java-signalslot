@@ -6,14 +6,13 @@
 package de.muspellheim.signalslot;
 
 /**
- * A slot act as receiver of data.
+ * A slot act as receiver of a signal.
  *
- * @param <T> value type
  * @author Falko Schumann &lt;www.muspellheim.de&gt;
  */
 @FunctionalInterface
-public interface Slot<T> {
+public interface Slot0 {
 
-    void receive(T value);
+    void receive();
 
 }

@@ -9,16 +9,15 @@ import org.junit.Test;
 
 import javax.swing.event.EventListenerList;
 import java.util.EventListener;
-import java.util.EventObject;
 
 import static org.junit.Assert.assertEquals;
 
 /**
- * Ported Qt simple example of signals and slots to Java listener pattern with event object.
+ * Ported Qt simple example of signals and slots to Java listener pattern.
  *
  * @author Falko Schumann &lt;falko.schumann@muspellheim.de&gt;
  */
-public final class CounterListenerAndEventTest {
+public final class CounterListenerLearningTest {
 
     @Test
     public void testCounter() {
@@ -36,6 +35,15 @@ public final class CounterListenerAndEventTest {
     }
 
     /**
+     * Listener interface for notifying a changed integer value.
+     */
+    public interface ValueListener extends EventListener {
+
+        void valueChanged(int value);
+
+    }
+
+    /**
      * This class holds a integer value.
      */
     public static final class Counter implements ValueListener {
@@ -50,9 +58,8 @@ public final class CounterListenerAndEventTest {
         public void setValue(final int value) {
             if (this.value != value) {
                 this.value = value;
-                final ValueEvent e = new ValueEvent(this, value);
-                for (ValueListener l : listeners.getListeners(ValueListener.class)) {
-                    l.valueChanged(e);
+                for (final ValueListener l : listeners.getListeners(ValueListener.class)) {
+                    l.valueChanged(value);
                 }
             }
         }
@@ -65,35 +72,8 @@ public final class CounterListenerAndEventTest {
             listeners.remove(ValueListener.class, l);
         }
 
-        public void valueChanged(final ValueEvent e) {
-            this.value = e.getValue();
-        }
-
-    }
-
-    /**
-     * Listener interface for notifying a changed integer value.
-     */
-    public interface ValueListener extends EventListener {
-
-        void valueChanged(ValueEvent e);
-
-    }
-
-    /**
-     * This Event holds a integer value.
-     */
-    public static final class ValueEvent extends EventObject {
-
-        private int value;
-
-        public ValueEvent(final Object source, final int value) {
-            super(source);
-            this.value = value;
-        }
-
-        public int getValue() {
-            return value;
+        public void valueChanged(final int newValue) {
+            this.value = newValue;
         }
 
     }

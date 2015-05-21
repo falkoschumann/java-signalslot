@@ -17,7 +17,7 @@ import static org.junit.Assert.assertEquals;
  *
  * @author Falko Schumann &lt;falko.schumann@muspellheim.de&gt;
  */
-public final class CounterObserverTest {
+public final class CounterObserverLearningTest {
 
     @Test
     public void testCounter() {
@@ -57,6 +57,7 @@ public final class CounterObserverTest {
         public void update(final Observable o, final Object arg) {
             value = (Integer) arg;
         }
+
     }
 
 }

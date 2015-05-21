@@ -5,9 +5,9 @@
 
 package de.muspellheim.signalslot;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * A signal act as source of data and can connect to any compatible slot.
@@ -15,27 +15,19 @@ import java.util.List;
  * @param <T> value type
  * @author Falko Schumann &lt;www.muspellheim.de&gt;
  */
-public class Signal<T> implements Slot<T> {
+public class Signal1<T> implements Slot1<T> {
 
-    private List<Slot<T>> slots = Collections.synchronizedList(new ArrayList<Slot<T>>());
+    private List<Slot1<T>> receivers = new CopyOnWriteArrayList<>();
     private boolean blocked;
 
-    public final void connect(final Slot<T> slot) {
-        if (slot == null) {
-            throw new NullPointerException("slot");
-        }
-        slots.add(slot);
+    public final void connect(final Slot1<T> receiver) {
+        Objects.requireNonNull(receiver, "receiver");
+        receivers.add(receiver);
     }
 
-    public final void disconnect(final Slot<T> slot) {
-        if (slot == null) {
-            throw new NullPointerException("slot");
-        }
-        slots.remove(slot);
-    }
-
-    public final void disconnectAll() {
-        slots.clear();
+    public final void disconnect(final Slot1<T> receiver) {
+        Objects.requireNonNull(receiver, "receiver");
+        receivers.remove(receiver);
     }
 
     public final void emit(final T value) {
@@ -43,11 +35,7 @@ public class Signal<T> implements Slot<T> {
             return;
         }
 
-        Slot<T>[] arrLocal;
-        synchronized (this) {
-            arrLocal = slots.toArray(new Slot[slots.size()]);
-        }
-        for (Slot<T> e : arrLocal) {
+        for (Slot1<T> e : receivers) {
             e.receive(value);
         }
     }
