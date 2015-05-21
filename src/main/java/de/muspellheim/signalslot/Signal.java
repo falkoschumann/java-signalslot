@@ -6,6 +6,7 @@
 package de.muspellheim.signalslot;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
@@ -20,16 +21,12 @@ public class Signal<T> implements Slot<T> {
     private boolean blocked;
 
     public final void connect(final Slot<T> slot) {
-        if (slot == null) {
-            throw new NullPointerException("slot");
-        }
+        Objects.requireNonNull(receiver, "slot");
         slots.add(slot);
     }
 
     public final void disconnect(final Slot<T> slot) {
-        if (slot == null) {
-            throw new NullPointerException("slot");
-        }
+        Objects.requireNonNull(receiver, "slot");
         slots.remove(slot);
     }
 
