@@ -15,17 +15,17 @@ import java.util.concurrent.CopyOnWriteArrayList;
  * @param <T> value type
  * @author Falko Schumann &lt;www.muspellheim.de&gt;
  */
-public class Signal<T> implements Slot<T> {
+public class Signal1<T> implements Slot1<T> {
 
-    private List<Slot<T>> receivers = new CopyOnWriteArrayList<>();
+    private List<Slot1<T>> receivers = new CopyOnWriteArrayList<>();
     private boolean blocked;
 
-    public final void connect(final Slot<T> receiver) {
+    public final void connect(final Slot1<T> receiver) {
         Objects.requireNonNull(receiver, "receiver");
         receivers.add(receiver);
     }
 
-    public final void disconnect(final Slot<T> receiver) {
+    public final void disconnect(final Slot1<T> receiver) {
         Objects.requireNonNull(receiver, "receiver");
         receivers.remove(receiver);
     }
@@ -39,7 +39,7 @@ public class Signal<T> implements Slot<T> {
             return;
         }
 
-        for (Slot<T> e : receivers) {
+        for (Slot1<T> e : receivers) {
             e.receive(value);
         }
     }

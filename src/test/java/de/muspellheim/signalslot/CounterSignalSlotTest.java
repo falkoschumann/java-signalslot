@@ -59,8 +59,8 @@ public final class CounterSignalSlotTest {
 
     @Test
     public void testChainSignals_Variant() {
-        final Signal<String> signal1 = new Signal<>();
-        final Signal<String> signal2 = new Signal<>();
+        final Signal1<String> signal1 = new Signal1<>();
+        final Signal1<String> signal2 = new Signal1<>();
 
         signal1.connect(signal2);
         signal2.connect(s -> assertTrue("Foo".equals(s)));
@@ -89,8 +89,8 @@ public final class CounterSignalSlotTest {
     @Test(expected = AssertionError.class)
     public void testBehaviourIdentity() {
         Counter a = new Counter();
-        Slot<Integer> s1 = a::setValue;
-        Slot<Integer> s2 = a::setValue;
+        Slot1<Integer> s1 = a::setValue;
+        Slot1<Integer> s2 = a::setValue;
 
         assertSame(s1, s2);
     }
@@ -99,8 +99,8 @@ public final class CounterSignalSlotTest {
     @Test(expected = AssertionError.class)
     public void testBehaviourEquality() {
         Counter a = new Counter();
-        Slot<Integer> s1 = a::setValue;
-        Slot<Integer> s2 = a::setValue;
+        Slot1<Integer> s1 = a::setValue;
+        Slot1<Integer> s2 = a::setValue;
 
         assertEquals(s1, s2);
     }
@@ -109,7 +109,7 @@ public final class CounterSignalSlotTest {
     public void testDisconnect() {
         final Counter a = new Counter();
         final Counter b = new Counter();
-        final Slot<Integer> slot = b::setValue;
+        final Slot1<Integer> slot = b::setValue;
         a.valueChanged().connect(slot);
 
         a.setValue(12);
@@ -186,9 +186,9 @@ public final class CounterSignalSlotTest {
      */
     public static final class Counter {
 
-        private final Signal<Integer> valueChanged = new Signal<>();
+        private final Signal1<Integer> valueChanged = new Signal1<>();
         private int value;
-        private Slot<Integer> valueSlot = this::setValue;
+        private Slot1<Integer> valueSlot = this::setValue;
 
         public int getValue() {
             return value;
@@ -201,11 +201,11 @@ public final class CounterSignalSlotTest {
             }
         }
 
-        public Signal<Integer> valueChanged() {
+        public Signal1<Integer> valueChanged() {
             return valueChanged;
         }
 
-        public Slot<Integer> setValue() {
+        public Slot1<Integer> setValue() {
             return valueSlot;
         }
 

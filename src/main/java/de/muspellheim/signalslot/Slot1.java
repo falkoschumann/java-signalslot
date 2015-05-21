@@ -12,7 +12,7 @@ package de.muspellheim.signalslot;
  * @author Falko Schumann &lt;www.muspellheim.de&gt;
  */
 @FunctionalInterface
-public interface Slot<T> {
+public interface Slot1<T> {
 
     void receive(T value);
 
