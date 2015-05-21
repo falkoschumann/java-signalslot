@@ -17,21 +17,21 @@ import java.util.concurrent.CopyOnWriteArrayList;
  */
 public class Signal<T> implements Slot<T> {
 
-    private List<Slot<T>> slots = new CopyOnWriteArrayList<>();
+    private List<Slot<T>> receivers = new CopyOnWriteArrayList<>();
     private boolean blocked;
 
-    public final void connect(final Slot<T> slot) {
-        Objects.requireNonNull(receiver, "slot");
-        slots.add(slot);
+    public final void connect(final Slot<T> receiver) {
+        Objects.requireNonNull(receiver, "receiver");
+        receivers.add(receiver);
     }
 
-    public final void disconnect(final Slot<T> slot) {
-        Objects.requireNonNull(receiver, "slot");
-        slots.remove(slot);
+    public final void disconnect(final Slot<T> receiver) {
+        Objects.requireNonNull(receiver, "receiver");
+        receivers.remove(receiver);
     }
 
     public final void disconnectAll() {
-        slots.clear();
+        receivers.clear();
     }
 
     public final void emit(final T value) {
@@ -39,7 +39,7 @@ public class Signal<T> implements Slot<T> {
             return;
         }
 
-        for (Slot<T> e : slots) {
+        for (Slot<T> e : receivers) {
             e.receive(value);
         }
     }
