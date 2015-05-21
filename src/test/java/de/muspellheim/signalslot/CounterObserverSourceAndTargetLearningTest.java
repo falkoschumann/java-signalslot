@@ -18,7 +18,7 @@ import static org.junit.Assert.assertEquals;
  *
  * @author Falko Schumann &lt;falko.schumann@muspellheim.de&gt;
  */
-public final class CounterObserverSourceAndTargetTest {
+public final class CounterObserverSourceAndTargetLearningTest {
 
     @Test
     public void testCounter() {
