@@ -10,33 +10,32 @@ import java.util.Objects;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
- * A signal act as source of data and can connect to any compatible slot.
+ * A signal act as source of an event and can connect to a slot.
  *
- * @param <T> value type
  * @author Falko Schumann &lt;www.muspellheim.de&gt;
  */
-public class Signal1<T> implements Slot1<T> {
+public class Signal0 implements Slot0 {
 
-    private List<Slot1<T>> receivers = new CopyOnWriteArrayList<>();
+    private List<Slot0> receivers = new CopyOnWriteArrayList<>();
     private boolean blocked;
 
-    public final void connect(final Slot1<T> receiver) {
+    public final void connect(final Slot0 receiver) {
         Objects.requireNonNull(receiver, "receiver");
         receivers.add(receiver);
     }
 
-    public final void disconnect(final Slot1<T> receiver) {
+    public final void disconnect(final Slot0 receiver) {
         Objects.requireNonNull(receiver, "receiver");
         receivers.remove(receiver);
     }
 
-    public final void emit(final T value) {
+    public final void emit() {
         if (isBlocked()) {
             return;
         }
 
-        for (Slot1<T> e : receivers) {
-            e.receive(value);
+        for (Slot0 e : receivers) {
+            e.receive();
         }
     }
 
@@ -49,8 +48,8 @@ public class Signal1<T> implements Slot1<T> {
     }
 
     @Override
-    public final void receive(final T value) {
-        emit(value);
+    public final void receive() {
+        emit();
     }
 
 }

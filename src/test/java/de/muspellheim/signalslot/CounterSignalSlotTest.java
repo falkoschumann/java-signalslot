@@ -88,9 +88,9 @@ public final class CounterSignalSlotTest {
 
     @Test(expected = AssertionError.class)
     public void testBehaviourIdentity() {
-        Counter a = new Counter();
-        Slot1<Integer> s1 = a::setValue;
-        Slot1<Integer> s2 = a::setValue;
+        final Counter a = new Counter();
+        final Slot1<Integer> s1 = a::setValue;
+        final Slot1<Integer> s2 = a::setValue;
 
         assertSame(s1, s2);
     }
@@ -98,9 +98,9 @@ public final class CounterSignalSlotTest {
 
     @Test(expected = AssertionError.class)
     public void testBehaviourEquality() {
-        Counter a = new Counter();
-        Slot1<Integer> s1 = a::setValue;
-        Slot1<Integer> s2 = a::setValue;
+        final Counter a = new Counter();
+        final Slot1<Integer> s1 = a::setValue;
+        final Slot1<Integer> s2 = a::setValue;
 
         assertEquals(s1, s2);
     }
@@ -138,26 +138,6 @@ public final class CounterSignalSlotTest {
         a.setValue(42);
         assertEquals(42, a.getValue());
         assertEquals(12, b.getValue());
-    }
-
-    @Test
-    public void testDisconnectAll() {
-        final Counter a = new Counter();
-        final Counter b = new Counter();
-        final Counter c = new Counter();
-        a.valueChanged().connect(b::setValue);
-        a.valueChanged().connect(c::setValue);
-
-        a.setValue(12);
-        assertEquals(12, a.getValue());
-        assertEquals(12, b.getValue());
-        assertEquals(12, c.getValue());
-
-        a.valueChanged().disconnectAll();
-        a.setValue(42);
-        assertEquals(42, a.getValue());
-        assertEquals(12, b.getValue());
-        assertEquals(12, c.getValue());
     }
 
     @Test
