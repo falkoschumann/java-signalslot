@@ -7,8 +7,7 @@ package de.muspellheim.signalslot;
 
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 /**
  * Ported Qt simple example of signals and slots to Java.
@@ -33,13 +32,13 @@ public final class CounterSignalSlotTest {
     }
 
     @Test(expected = NullPointerException.class)
-    public void testConnectNull_NullPointerException() {
+    public void testConnectNull() {
         final Counter a = new Counter();
         a.valueChanged.connect(null);
     }
 
     @Test(expected = NullPointerException.class)
-    public void testDisconnectNull_NullPointerException() {
+    public void testDisconnectNull() {
         final Counter a = new Counter();
         a.valueChanged.disconnect(null);
     }
@@ -85,6 +84,25 @@ public final class CounterSignalSlotTest {
         a.setValue(12);
         assertEquals(12, a.getValue());
         assertEquals(0, c.getValue());
+    }
+
+    @Test(expected = AssertionError.class)
+    public void testBehaviourIdentity() {
+        Counter a = new Counter();
+        Slot<Integer> s1 = a::setValue;
+        Slot<Integer> s2 = a::setValue;
+
+        assertSame(s1, s2);
+    }
+
+
+    @Test(expected = AssertionError.class)
+    public void testBehaviourEquality() {
+        Counter a = new Counter();
+        Slot<Integer> s1 = a::setValue;
+        Slot<Integer> s2 = a::setValue;
+
+        assertEquals(s1, s2);
     }
 
     @Test
