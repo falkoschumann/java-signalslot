@@ -70,7 +70,7 @@ public final class CounterSignalSlotTest {
 
 
     @Test
-    public void testSetSameValue() {
+    public void testSetSameValue_SecondTryEmitNoSignal() {
         final Counter a = new Counter();
         final Counter b = new Counter();
         final Counter c = new Counter();
@@ -109,43 +109,35 @@ public final class CounterSignalSlotTest {
     public void testDisconnect() {
         final Counter a = new Counter();
         final Counter b = new Counter();
-        final Counter c = new Counter();
-        a.valueChanged().connect(b::setValue);
-        final Slot<Integer> slotSetValueOfC = c::setValue;
-        a.valueChanged().connect(slotSetValueOfC);
+        final Slot<Integer> slot = b::setValue;
+        a.valueChanged().connect(slot);
 
         a.setValue(12);
         assertEquals(12, a.getValue());
         assertEquals(12, b.getValue());
-        assertEquals(12, c.getValue());
 
         // TODO Workaround: to disconnect a slot, we must remember the method reference
-        a.valueChanged().disconnect(slotSetValueOfC);
+        a.valueChanged().disconnect(slot);
         a.setValue(42);
         assertEquals(42, a.getValue());
-        assertEquals(42, b.getValue());
-        assertEquals(12, c.getValue());
+        assertEquals(12, b.getValue());
     }
 
     @Test
     public void testDisconnect_Variant() {
         final Counter a = new Counter();
         final Counter b = new Counter();
-        final Counter c = new Counter();
-        a.valueChanged().connect(b::setValue);
-        a.valueChanged().connect(c.setValue());
+        a.valueChanged().connect(b.setValue());
 
         a.setValue(12);
         assertEquals(12, a.getValue());
         assertEquals(12, b.getValue());
-        assertEquals(12, c.getValue());
 
         // TODO Workaround: to disconnect a slot, we must have reference a slot instance
-        a.valueChanged().disconnect(c.setValue());
+        a.valueChanged().disconnect(b.setValue());
         a.setValue(42);
         assertEquals(42, a.getValue());
-        assertEquals(42, b.getValue());
-        assertEquals(12, c.getValue());
+        assertEquals(12, b.getValue());
     }
 
     @Test
