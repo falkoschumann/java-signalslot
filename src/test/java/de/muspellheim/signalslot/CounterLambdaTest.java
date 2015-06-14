@@ -19,7 +19,7 @@ import static org.junit.Assert.*;
  *
  * @author Falko Schumann &lt;falko.schumann@muspellheim.de&gt;
  */
-public class CounterLambdaTest {
+public final class CounterLambdaTest {
 
     @Test
     public void testCounter() {
@@ -151,17 +151,16 @@ public class CounterLambdaTest {
             }
         }
 
-        public void valueChanged(int value) {
-            consumers.forEach(c -> c.accept(value));
-            //consumers.forEach(value);
+        public void valueChanged(final int newValue) {
+            consumers.forEach(c -> c.accept(newValue));
         }
 
-        public void addConsumer(IntConsumer consumer) {
+        public void addConsumer(final IntConsumer consumer) {
             Objects.requireNonNull(consumer, "consumer");
             consumers.add(consumer);
         }
 
-        public void removeConsumer(IntConsumer consumer) {
+        public void removeConsumer(final IntConsumer consumer) {
             Objects.requireNonNull(consumer, "consumer");
             consumers.remove(consumer);
         }
